@@ -54,6 +54,41 @@ add_action('cmb2_admin_init', function() {
     ]);
 
     $cmb_petition_form->add_field([
+        'name' => 'Join us',
+        'id' => 'petition_form_join_title',
+        'type' => 'text',
+        'default' => 'Join the cause!'
+    ]);
+
+    $cmb_petition_form->add_field([
+        'name' => 'Signatures',
+        'id' => 'petition_form_signatures',
+        'type' => 'text',
+        'default' => 'Signatures'
+    ]);
+
+    $cmb_petition_form->add_field([
+        'name' => 'The goal',
+        'id' => 'petition_form_goal',
+        'type' => 'text',
+        'default' => 'The goal'
+    ]);
+
+    $cmb_petition_form->add_field([
+        'name' => 'Recently submission',
+        'id' => 'petition_form_submission',
+        'type' => 'text',
+        'default' => 'signed recently'
+    ]);
+
+    $cmb_petition_form->add_field([
+        'name' => 'Add your sign now',
+        'id' => 'petition_form_add_sign',
+        'type' => 'text',
+        'default' => 'Add your sign now'
+    ]);
+
+    $cmb_petition_form->add_field([
         'name' => 'Name',
         'id' => 'petition_form_nome',
         'type' => 'text',
