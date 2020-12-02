@@ -2,7 +2,6 @@
 
 add_action('cmb2_admin_init', function() {
     
-
     $cmb_petition_page = new_cmb2_box([
         'id' => 'petition_page_metabox',
         'title' => 'Petitions details',

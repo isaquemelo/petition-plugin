@@ -10,7 +10,7 @@ include __DIR__ . '/ctps.php';
 include __DIR__ . '/assets.php';
 include __DIR__ . '/ajax.php';
 include __DIR__ . '/metaboxes.php';
-include __DIR__ . '/pagebuilder.php';
+// include __DIR__ . '/pagebuilder.php';
 
 // Adding rewrite rule for caching
 function petitions_cache_rewrite() {
