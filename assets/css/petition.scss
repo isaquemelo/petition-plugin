@@ -1,0 +1,225 @@
+.single-petition {
+    --featured-font-family: "Oswald";
+    --secondary-font-family: "Open Sans";
+    --primary-color: #EB2F06;
+    --accent-color: #26A17A;
+    --over-accent-color: white;
+
+    font-size: 16px;
+
+    .petition {
+        &--header {
+            .featured-image {
+                &, & img {
+                    width: 100%;
+                }
+            }
+        }
+
+        &--content {
+            width: 1200px;
+            max-width: 90%;
+            margin: 0 auto;
+            position: relative;
+            margin-top: -65px;
+
+            .language-selector {
+                display: flex;
+                justify-content: flex-end;
+
+                select#petition-language-selector {
+                    border-radius: 6px;
+                    background: white;
+                    font-weight: bold;
+                    font-size: 1em;
+                    height: 36px;
+                    width: 204px;
+                    border: 2px solid #DDDDDD;
+                    border-radius: 10px;
+                    padding: 0 8px;
+                    font-family: var(--secondary-font-family);
+                }
+            }
+
+            .content-wrapper {
+                display: grid;
+                grid-template-columns: 1.65fr 3fr;
+
+                .sidebar {
+                    .petition-block {
+                        background: #F5F5F5;
+                        padding: 30px;
+
+                        .signatures-information {
+                            .signatures-count {
+                                .quantity {
+                                    display: flex;
+                                    flex-direction: column;
+                                    align-items: center;
+                                    text-transform: uppercase;
+                                    margin-bottom: 30px;
+
+                                    span {
+                                        font-family: var(--featured-font-family);
+                                        line-height: 1.875em;
+                                        font-weight: bold;
+
+                                        &:first-child {
+                                            font-size: 2.5em;
+                                        }
+
+                                        &:last-child {
+                                            color: var(--primary-color);
+                                            font-size: 1.25em;
+                                            text-align: center;
+                                            letter-spacing: 4px;
+                                        }
+                                    }
+                                }
+
+                                .join {
+                                    font-family: var(--featured-font-family);
+                                    font-weight: 700;
+                                    font-size: 1.125em;
+                                    text-align: center;
+                                    letter-spacing: 1px;
+                                    margin-bottom: 30px;
+                                }
+
+                                .progress {
+                                    font-family: var(--featured-font-family);
+                                    margin-bottom: 30px;
+
+                                    .progress-bar {
+                                        background: #E7E8EA;
+                                        height: 20px;
+                                        border-radius: 20px;
+                                        overflow: hidden;
+                                        position: relative;
+                                        margin-bottom: 5px;
+
+                                        .progressed-area {
+                                            background-color: var(--accent-color);
+                                            border-radius: 20px;
+                                            height: inherit;
+                                        }
+
+                                        .progress-info {
+                                            width: 100%;
+                                            position: absolute;
+                                            top: -1.2px; 
+                                            display: flex;
+                                            justify-content: space-between;
+                                            font-size: 0.875em;
+                                            font-weight: bold;
+                                            padding: 0 8px;
+
+                                            span {
+                                                &:first-child {
+                                                    color: var(--over-accent-color)
+                                                }
+
+                                                &:last-child {
+                                                    color: #858583;
+                                                }
+                                            }
+                                        } 
+                                    }
+
+                                    .progress-helper {
+                                        display: flex;
+                                        justify-content: space-between;
+                                        padding: 0 8px;
+                                        font-size: 0.875em;
+                                        text-transform: uppercase;
+                                        font-weight: bold;
+
+                                        span {
+                                            &:first-child {
+                                                color: var(--accent-color);
+                                            }
+
+                                            &:last-child {
+                                                color: var(--primary-color);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            .signatures-history {
+                                font-family: var(--featured-font-family);
+                                font-weight: bold;
+                                font-size: 0.87em;
+                                text-transform: uppercase;
+                                padding-bottom: 25px;
+                                border-bottom: 1px solid #0B0B07;
+                                margin-bottom: 30px;
+
+                                .user-signature {
+                                    color: #0B0B07;
+                                    opacity: 0.5;
+
+                                    &:not(:last-child) {
+                                        margin-bottom: 15px;
+                                    }
+
+                                    svg {
+                                        width: 10px;
+                                        margin-right: 4px;
+                                    }
+                                }
+                            }
+
+                            .petition-form {
+                                input[type=text], select {
+                                    width: 100%;
+                                    border-radius: 6px;
+                                    background: white;
+                                    font-weight: bold;
+                                    font-size: 1em;
+                                    border: 2px solid #DDDDDD;
+                                    border-radius: 10px;
+                                    padding: 4px 8px;
+                                    font-family: var(--secondary-font-family);
+                                    margin-bottom: 8px;
+                                }
+                                
+                                select {
+                                    margin-bottom: 20px;
+                                }
+
+                                fieldset {
+                                    border: 0px;
+                                    padding: 0;
+                                    margin-bottom: 30px;
+
+                                    > div {
+                                        display: flex;
+                                        align-items: center;
+                                        font-family: var(--secondary-font-family);
+                                        font-weight: 100;
+
+                                        input {
+                                            margin-right: 5px;
+                                        }
+
+                                        label {
+                                            a {
+                                                text-decoration: underline;
+                                                font-weight: 600;
+                                            }
+                                        }
+                                    }
+                                }
+
+                               
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }
+    }
+}
