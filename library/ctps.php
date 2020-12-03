@@ -110,47 +110,8 @@ function signatures_post_type() {
 	remove_post_type_support('signature', 'title');
 	remove_post_type_support('signature', 'editor');
 }
+
 add_action( 'init', 'signatures_post_type', 0 );
-
-
-
-add_filter('manage_signature_posts_columns', 'signature_table_head');
-	
-function signature_table_head( $defaults ) {
-	unset($defaults['title']);
-	
-	$temp = $defaults['date'];
-	unset($defaults['date']);
-
-	$defaults['name']  = 'Name';
-	$defaults['petition'] = 'Petition';
-	$defaults['country']   = 'Country';
-	$defaults['date'] = $temp;
-
-	return $defaults;
-}
-
-add_action( 'manage_signature_posts_custom_column', 'signature_table_content', 10, 2 );
-
-function signature_table_content( $column_name, $post_id ) {
-    if ($column_name == 'name') {
-    	$name = get_post_meta( $post_id, 'name', true );
-    	echo  $name;
-	}
-	
-	if ($column_name == 'petition') {
-		$petition_id = get_post_meta( $post_id, 'petition_id', true );
-		$petition_name = get_the_title($petition_id);
-		$petition_permalink = get_edit_post_link($petition_id);
-
-		echo "<a href=\"{$petition_permalink}\">{$petition_name} </a>";
-	}
-	
-	if ($column_name == 'country') {
-    	$country = get_post_meta( $post_id, 'country', true );
-    	echo  $country;
-	}
-}
 
 // Register Custom Taxonomy
 function languages_taxonomy() {
