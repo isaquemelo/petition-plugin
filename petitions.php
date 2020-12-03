@@ -5,11 +5,11 @@
 * Plugin Description: Abaixo Assinados by hacklab
 * Author: hacklab/
 */
-include __DIR__ . '/api.php';
-include __DIR__ . '/ctps.php';
-include __DIR__ . '/assets.php';
-include __DIR__ . '/ajax.php';
-include __DIR__ . '/metaboxes.php';
+include __DIR__ . '/library/api.php';
+include __DIR__ . '/library/ctps.php';
+include __DIR__ . '/library/assets.php';
+include __DIR__ . '/library/ajax.php';
+include __DIR__ . '/library/metaboxes.php';
 // include __DIR__ . '/pagebuilder.php';
 
 // Adding rewrite rule for caching
@@ -22,7 +22,7 @@ add_filter('template_include', 'petitions_single_template');
 
 function petitions_single_template($template) {
 	if (is_singular('petition')) {
-		return plugin_dir_path(__FILE__) . 'single-petition.php';
+		return plugin_dir_path(__FILE__) . 'templates/single-petition.php';
 	}
 	return $template;
 }

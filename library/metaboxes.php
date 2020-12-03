@@ -134,7 +134,7 @@ add_action('cmb2_admin_init', function() {
     $cmb_signature = new_cmb2_box([
         'id' => 'singature_metabox',
         'title' => 'Signature meta',
-        'object_types' => ['signatures'],
+        'object_types' => ['signature'],
         'priority' => 'high',
     ]);
 
