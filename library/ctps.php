@@ -34,7 +34,7 @@ function petition_post_type() {
 	$args = array(
 		'label'                 => __( 'Petition', 'petition' ),
 		'labels'                => $labels,
-		'taxonomies'            => array( 'category', 'post_tag', 'languages'),
+		'taxonomies'            => array('languages'),
 		'hierarchical'          => false,
 		'public'                => true,
 		'show_ui'               => true,
