@@ -1,33 +1,41 @@
-(function($) {
-    $(document).ready(function(){
-        // setTimeout(function() {
-        //     if(grecaptcha){
-        //         grecaptcha.execute()
-        //     }
-        // }, 2000);
+// (function($) {
+//     $(document).ready(function(){
+//         // setTimeout(function() {
+//         //     if(grecaptcha){
+//         //         grecaptcha.execute()
+//         //     }
+//         // }, 2000);
         
-        $('#formPetition').on('submit', function(e){
-            e.preventDefault();
+//         $('#formPetition').on('submit', function(e){
+//             e.preventDefault();
             
-            if($('#formPetition .custom-checkbox input').length > 0 && !$('#formPetition .custom-checkbox input').is(':checked')){
-                $('#formPetition .custom-checkbox').addClass('error');
-                return false;
-            }
-            $.post('/petitions/'+ $('#formPetition').data('petition-id') +'/create', $('#formPetition').serialize() , function(data){
-                $('#formPetition input').val('');
-                $('#modal-petition .modal-petition-content').show();
-                $('#modal-petition .modal-content-stf').hide();
-                $('#modal-petition-wrapper, #modal-petition').addClass('show');
-                $('#formPetition .custom-checkbox').removeClass('error');
-                $('#formPetition .custom-checkbox input').trigger('click');
-            })
+//             if($('#formPetition .custom-checkbox input').length > 0 && !$('#formPetition .custom-checkbox input').is(':checked')){
+//                 $('#formPetition .custom-checkbox').addClass('error');
+//                 return false;
+//             }
+//             $.post('/petitions/'+ $('#formPetition').data('petition-id') +'/create', $('#formPetition').serialize() , function(data){
+//                 $('#formPetition input').val('');
+//                 $('#modal-petition .modal-petition-content').show();
+//                 $('#modal-petition .modal-content-stf').hide();
+//                 $('#modal-petition-wrapper, #modal-petition').addClass('show');
+//                 $('#formPetition .custom-checkbox').removeClass('error');
+//                 $('#formPetition .custom-checkbox input').trigger('click');
+//             })
 
-            return false;
-        });
+//             return false;
+//         });
 
-        $('#modal-petition .close-button').click(function(){
-            $('#modal-petition-wrapper, #modal-petition').removeClass('show');
-        })
+//         $('#modal-petition .close-button').click(function(){
+//             $('#modal-petition-wrapper, #modal-petition').removeClass('show');
+//         })
         
-    });
-})(jQuery);
+//     });
+// })(jQuery);
+
+
+window.addEventListener('DOMContentLoaded', function() {
+    const languageSelect = document.querySelector('select#petition-language-selector');
+    languageSelect.addEventListener('change', function(event) {
+        window.location = event.target.value;
+    })
+});
