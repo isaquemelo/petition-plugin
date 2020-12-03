@@ -47,7 +47,7 @@ function petition_post_type() {
 		'exclude_from_search'   => false,
 		'publicly_queryable'    => true,
 		'show_in_rest' => true,
-		'supports'              => array( 'title', 'editor', 'thumbnail', 'excerpt'),
+		'supports'              => array( 'title', 'editor', 'thumbnail', 'excerpt', 'page-attributes'),
 		'capability_type'       => 'page',
 		'rewrite'				=> [ 'slug' => 'petition'] 
 	);
