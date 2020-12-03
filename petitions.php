@@ -13,12 +13,6 @@ include __DIR__ . '/library/ajax.php';
 include __DIR__ . '/library/metaboxes.php';
 // include __DIR__ . '/pagebuilder.php';
 
-// Adding rewrite rule for caching
-function petitions_cache_rewrite() {
-	add_rewrite_rule('petitions/([0-9]+)/create$', 'wp-admin/admin-ajax.php?action=petition_createpost&petition_id=$1', 'top');
-}
-add_action('init', 'petitions_cache_rewrite');
-
 add_filter('template_include', 'petitions_single_template');
 
 function petitions_single_template($template) {
