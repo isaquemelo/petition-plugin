@@ -7,6 +7,7 @@
 */
 include __DIR__ . '/library/api.php';
 include __DIR__ . '/library/ctps.php';
+include __DIR__ . '/library/admin-columns.php';
 include __DIR__ . '/library/assets.php';
 include __DIR__ . '/library/ajax.php';
 include __DIR__ . '/library/metaboxes.php';
