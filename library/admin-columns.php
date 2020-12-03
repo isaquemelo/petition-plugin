@@ -109,3 +109,37 @@ if (is_admin()) {
         }
     });
 }
+
+
+add_filter('manage_petition_posts_columns', 'petition_table_head');
+
+function petition_table_head($defaults) {
+    $defaults['signatures_count']  = 'Signatures';
+    $defaults['view_signatures']  = '';
+    return $defaults;
+}
+
+add_action('manage_petition_posts_custom_column', 'petition_table_content', 10, 2);
+
+function petition_table_content($column_name, $post_id) {
+    if ($column_name == 'signatures_count') {
+        $count = count_signatures($post_id);
+        echo  $count;
+    }
+
+    if ($column_name == 'view_signatures') {
+        $country = get_post_meta($post_id, 'country', true);
+        echo  "<a href=\"edit.php?post_type=signature&admin_filter_petition=$post_id\">View signatures</a>";
+    }
+
+    // if ($column_name == 'petition') {
+    //     $petition_id = get_post_meta($post_id, 'petition_id', true);
+    //     $petition_name = get_the_title($petition_id);
+    //     $petition_permalink = get_edit_post_link($petition_id);
+
+    //     echo "<a href=\"{$petition_permalink}\">{$petition_name} </a>";
+    // }
+
+
+}
+
