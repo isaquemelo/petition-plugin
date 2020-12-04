@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Oswald:wght@300;500;700&display=swap');
+
 .single-petition {
     --featured-font-family: "Oswald";
     --secondary-font-family: "Open Sans";
@@ -10,7 +12,9 @@
     .petition {
         &--header {
             .featured-image {
-                &, & img {
+
+                &,
+                & img {
                     width: 100%;
                 }
             }
@@ -44,11 +48,13 @@
             .content-wrapper {
                 display: grid;
                 grid-template-columns: 1.65fr 3fr;
+                grid-column-gap: 30px;
 
                 .sidebar {
                     .petition-block {
                         background: #F5F5F5;
                         padding: 30px;
+                        margin-bottom: 65px;
 
                         .signatures-information {
                             .signatures-count {
@@ -107,7 +113,7 @@
                                         .progress-info {
                                             width: 100%;
                                             position: absolute;
-                                            top: -1.2px; 
+                                            top: -1.2px;
                                             display: flex;
                                             justify-content: space-between;
                                             font-size: 0.875em;
@@ -123,7 +129,7 @@
                                                     color: #858583;
                                                 }
                                             }
-                                        } 
+                                        }
                                     }
 
                                     .progress-helper {
@@ -159,6 +165,7 @@
                                 .user-signature {
                                     color: #0B0B07;
                                     opacity: 0.5;
+                                    display: flex;
 
                                     &:not(:last-child) {
                                         margin-bottom: 15px;
@@ -172,7 +179,15 @@
                             }
 
                             .petition-form {
-                                input[type=text], input[type=email], select {
+                                margin-bottom: 20px;
+
+                                input[hidden] {
+                                    display: none;
+                                }
+
+                                input[type=text],
+                                input[type=email],
+                                select {
                                     width: 100%;
                                     border-radius: 6px;
                                     background: white;
@@ -183,22 +198,32 @@
                                     padding: 4px 8px;
                                     font-family: var(--secondary-font-family);
                                     margin-bottom: 8px;
+
+                                    &::placeholder {
+                                        color: grey;
+                                    }
                                 }
-                                
+
+                                label {
+                                    margin: 0;
+                                }
+
                                 select {
                                     margin-bottom: 20px;
                                 }
+                                
 
                                 fieldset {
                                     border: 0px;
                                     padding: 0;
                                     margin-bottom: 30px;
 
-                                    > div {
+                                    >div {
                                         display: flex;
                                         align-items: center;
                                         font-family: var(--secondary-font-family);
                                         font-weight: 100;
+                                        margin-bottom: 10px;
 
                                         input {
                                             margin-right: 5px;
@@ -213,13 +238,120 @@
                                     }
                                 }
 
-                               
+                                button {
+                                    transition: background 150ms ease-in-out;
+                                    background: var(--primary-color);
+                                    font-family: var(--featured-font-family);
+                                    border: none;
+                                    border-radius: 5px;
+                                    box-sizing: border-box;
+                                    display: inline-block;
+                                    color: #fff;
+                                    font-size: 1.25em;
+                                    font-weight: 700;
+                                    line-height: 1.2;
+                                    outline: none;
+                                    padding: 0.76rem 1rem;
+                                    text-decoration: none;
+                                    vertical-align: bottom;
+                                    text-transform: none;
+                                    width: 100%;
+                                }
+
+                                .success-message {
+                                    text-align: center;
+                                    font-family: var(--featured-font-family);
+                                    font-weight: bold;
+                                }
+
+                                .loading-area, .success-message {
+                                    display: none;
+                                }
+
+
                             }
                         }
                     }
                 }
+
+
+                .post-content {
+                    padding-top: 65px;
+                }
             }
-            
+
         }
+
+        .hide {
+            display: none!important;
+        }
+    }
+}
+
+.lds-ellipsis {
+    display: block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+}
+
+.lds-ellipsis div {
+    position: absolute;
+    top: 33px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.lds-ellipsis div:nth-child(1) {
+    left: 8px;
+    animation: lds-ellipsis1 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(2) {
+    left: 8px;
+    animation: lds-ellipsis2 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(3) {
+    left: 32px;
+    animation: lds-ellipsis2 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(4) {
+    left: 56px;
+    animation: lds-ellipsis3 0.6s infinite;
+}
+
+@keyframes lds-ellipsis1 {
+    0% {
+        transform: scale(0);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes lds-ellipsis3 {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(0);
+    }
+}
+
+@keyframes lds-ellipsis2 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(24px, 0);
     }
 }
