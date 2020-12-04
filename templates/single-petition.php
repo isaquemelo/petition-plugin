@@ -439,6 +439,8 @@ if(empty($goal)) {
 
 
                     </div>
+
+                    <?php dynamic_sidebar('petition_plugin_sidebar') ?>
                 </div>
 
                 <div class="post-content">
