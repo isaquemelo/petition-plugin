@@ -33,7 +33,7 @@
 // })(jQuery);
 
 function pushFormData(data) {
-    return fetch('http://localhost/wp-json/petition/sign', {
+    return fetch(petitionPlugin.url + 'wp-json/petition/sign', {
         method: 'post',
         body: JSON.stringify(data),
         headers: {
