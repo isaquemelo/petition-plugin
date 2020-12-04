@@ -5,6 +5,28 @@
         $email = $params['email'];
         $country = $params['country'];
         $keep_me_updated = $params['keep_me_updated'];
+        $gcaptcha = $params['g-recaptcha-response'];
+
+        if(!class_exists('ReCaptchaResponse')){
+            require_once ('recaptchalib.php');
+        }
+    
+        $secret = "6LeEm6oUAAAAAO-CaT3K3kuF610AxNB4rolzylcc";
+        $response = null;
+        $reCaptcha = new \ReCaptcha($secret);
+        $capcha_response = $gcaptcha;
+    
+        $response = $reCaptcha->verifyResponse(
+            isset($_SERVER['HTTP_X_REAL_IP']) ? $_SERVER['HTTP_X_REAL_IP'] : $_SERVER['REMOTE_ADDR'],
+            $capcha_response
+        );
+    
+        if(!$response || !$response->success){
+            wp_send_json_error('{"success":false,"data":{"hide":0,"error":1,"response":"Error: Captcha inválido."}}');
+            exit;
+        }
+
+
 
         $post_metadatum = [
             'petition_id' => $petition_id,
@@ -49,6 +71,10 @@
                 ),
 
                 'keep_me_updated' => array(
+                    'required' => true,
+                ),
+
+                'g-recaptcha-response' => array(
                     'required' => true,
                 ),
             ],

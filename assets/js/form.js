@@ -62,6 +62,14 @@ function loadingForm(formElement) {
 
 
 window.addEventListener('DOMContentLoaded', function() {
+
+    // Recaptchar
+    setTimeout(function() {
+        if(grecaptcha){
+            grecaptcha.execute()
+        }
+    }, 2000);
+
     // Language switcher
     const languageSelect = document.querySelector('select#petition-language-selector');
     if(languageSelect) {
@@ -83,7 +91,7 @@ window.addEventListener('DOMContentLoaded', function() {
             for (let [key, value] of formData.entries()) {
                 // Skip some fields
                 if(!skipedInputs.includes(key)) {
-                    console.log(key, value);
+                    
                     filteredData[key] = value;
                 }
             }
@@ -94,6 +102,7 @@ window.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
+            console.log(filteredData);
             loadingForm(petitionForm);
 
             pushFormData({...defaultValues, ...filteredData}).then(response => {
