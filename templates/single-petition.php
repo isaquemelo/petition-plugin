@@ -79,7 +79,11 @@ if(empty($goal)) {
                                 <?php if($goal): ?>
                                     <div class="progress">
                                         <?php 
-                                            $complete = ($signatures_count / $goal) * 100;
+                                            if($signatures_count < $goal) {
+                                                $complete = ($signatures_count / $goal) * 100;
+                                            } else {
+                                                $complete = 100;
+                                            }
                                         ?>
                                         <div class="progress-bar" >
                                             <div class="progressed-area" style="width: <?= $complete ?>%"></div>
@@ -112,7 +116,8 @@ if(empty($goal)) {
                                             'key' => 'petition_id',
                                             'value' => $petition_id,
                                             'compare' => '='
-                                        ]
+                                        ],
+                                        'posts_per_page' => get_post_meta($petition_id, 'petition_signatures_shown', true)
                                     ] );
                                     
                                     // The Loop
@@ -137,16 +142,17 @@ if(empty($goal)) {
                             </div>
 
                             <div class="petition-form">
-                                <form action="?" method="POST" id="formPetition" data-petition-id="<?= $petition_id ?>" onsubmit="return false;">
+                                <form action="?" method="POST" id="petition-form" data-petition-id="<?= $petition_id ?>" onsubmit="return false;">
                                     <input type="text" name="name" placeholder="<?= get_post_meta(get_the_ID(), 'petition_form_nome', true ) ?>" required>
-                                    <input type="text" name="email" placeholder="<?= get_post_meta(get_the_ID(), 'petition_form_email', true ) ?>" required>
+                                    <input type="email" name="email" placeholder="<?= get_post_meta(get_the_ID(), 'petition_form_email', true ) ?>" required>
                                     
                                     <fieldset>
                                         <!-- <label for="country">
                                             <?= get_post_meta(get_the_ID(), 'petition_form_country', true ) ?>
                                         </label> -->
                                         
-                                        <select id="country" name="petition_form_country">
+                                        <select id="country" name="country" required>
+                                            <option value="0" label="" disabled selected default><?= get_post_meta(get_the_ID(), 'petition_form_country', true ) ?></option>
                                             <option value="Afganistan">Afghanistan</option>
                                             <option value="Albania">Albania</option>
                                             <option value="Algeria">Algeria</option>
@@ -396,14 +402,15 @@ if(empty($goal)) {
                                         </select>   
                                         
                                         <div>
-                                            <input type="checkbox" id="accept-terms" name="accept-terms">
+                                            <input type="checkbox" id="accept-terms" name="accept-terms" required>
                                             <label for="accept-terms">
                                                 <?= get_post_meta(get_the_ID(), 'petition_terms_text', true ) ?>
                                             </label>
                                         </div>
-
+                                        
                                         <div>
-                                            <input type="checkbox" id="keep-me-update" name="keep-me-update">
+                                            <!-- petition_form_enable_keep_me_updated     -->
+                                            <input type="checkbox" id="keep-me-update" name="keep_me_updated">
                                             <label for="keep-me-update">
                                                 <?= get_post_meta(get_the_ID(), 'petition_form_keep_me_updated', true ) ?>
                                             </label>
@@ -412,11 +419,20 @@ if(empty($goal)) {
 
                                     </fieldset>
 
+                                    <input type="text" id="petition-id" name="petition_id" hidden value="<?= $petition_id ?>">
                                     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
                                     <button class="g-recaptcha hide" data-sitekey="6LeEm6oUAAAAAP-7tz9-3FTvB-awGdDvt5VqXULK" data-size="invisible">Submit</button>
 
                                     <button style="width: 100%" class="button primary mt20 block"><?= get_post_meta(get_the_ID(), 'petition_submit_text', true) ?></button>
                                 </form>
+
+                                <div class="loading-area">
+                                    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+                                </div>
+
+                                <div class="success-message">
+                                    <?= get_post_meta($child_id, 'petition_terms_thank_text', true); ?>
+                                </div>
                             </div>
 
                         </div>

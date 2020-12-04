@@ -34,6 +34,13 @@ add_action('cmb2_admin_init', function() {
     ]);
 
     $cmb_petition_page->add_field([
+        'name' => 'Quantity of signatures shown',
+        'id' => 'petition_signatures_shown',
+        'type' => 'text',
+        'default' => 5, 
+    ]);
+
+    $cmb_petition_page->add_field([
         'name' => 'Display counting?',
         'id' => 'petition_display_counting',
         'type' => 'checkbox',
@@ -129,6 +136,21 @@ add_action('cmb2_admin_init', function() {
         'type' => 'textarea_code',
         'default' => 'I accept the terms of use',
         'sanitization_cb' => 'petition_terms_text_callback', // function should return a sanitized value
+    ]);
+
+    $cmb_petition_form->add_field([
+        'name' => 'Submit button',
+        'id' => 'petition_submit_text',
+        'type' => 'text',
+        'default' => 'Sign now',
+    ]);
+
+    $cmb_petition_form->add_field([
+        'name' => 'Thank you message',
+        'id' => 'petition_terms_thank_text',
+        'description' => 'This message will be shown after the signature is made',
+        'type' => 'textarea',
+        'default' => 'Thank you for your signature!',
     ]);
    
     // Signature post type fields
