@@ -25,7 +25,7 @@ if(empty($goal)) {
             <?php the_post_thumbnail( 'large' ); ?>
         </div>
 
-        <div class="petition--content">
+        <div class="petition--content <?= empty(get_the_content())? ' empty-content' : ' has-content' ?><?= has_post_thumbnail()? ' has-thumbnail' : ' no-thumb' ?>">
             <div class="language-selector">
             <?php 
                 $petition_children = get_languages($petition_id);
@@ -42,9 +42,10 @@ if(empty($goal)) {
                         foreach($petition_children as $p_child){
                             $languages = get_the_terms($p_child->post_id, 'languages');
 
-                            if(count($languages) > 0){
-                                ?>
-                                    <option <?= $p_child->post_id == get_the_ID() ? 'selected': '' ?> value="<?= get_the_permalink($p_child->post_id) ?>"><?= $languages[0]->name ?></option>
+                            if(count($languages) > 0){ ?>
+                                    <?php if(isset($languages[0]->name)): ?>
+                                        <option <?= $p_child->post_id == get_the_ID() ? 'selected': '' ?> value="<?= get_the_permalink($p_child->post_id) ?>"><?= $languages[0]->name ?></option>
+                                    <?php endif; ?>
                                 <?php
                             }
                         }
@@ -52,7 +53,7 @@ if(empty($goal)) {
                     </select>
                 <?php } ?>
             </div>
-            <div class="content-wrapper<?= empty(get_the_content())? ' empty-content' : ' has-content' ?>">
+            <div class="content-wrapper">
                 <div class="sidebar">
                     <div class="petition-block">
                         <div class="signatures-information">
