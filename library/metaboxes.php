@@ -30,7 +30,7 @@ add_action('cmb2_admin_init', function() {
         'name' => 'Goal',
         'id' => 'petition_goal',
         'type' => 'text',
-        'description' => "You don\'t need to fill this if this petition is associated with a parent",
+        'description' => "You don't need to fill this if this petition is associated with a parent",
     ]);
 
     $cmb_petition_page->add_field([
