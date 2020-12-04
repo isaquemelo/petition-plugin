@@ -52,7 +52,7 @@ if(empty($goal)) {
                     </select>
                 <?php } ?>
             </div>
-            <div class="content-wrapper">
+            <div class="content-wrapper<?= empty(get_the_content())? ' empty-content' : ' has-content' ?>">
                 <div class="sidebar">
                     <div class="petition-block">
                         <div class="signatures-information">
@@ -410,7 +410,8 @@ if(empty($goal)) {
                                         
                                         <div>
                                             <!-- petition_form_enable_keep_me_updated     -->
-                                            <input type="checkbox" id="keep-me-update" name="keep_me_updated">
+                                            <?php $required_keep_me_updated = get_post_meta(get_the_ID(), 'petition_form_enable_keep_me_updated', true); ?>
+                                            <input type="checkbox" id="keep-me-update" name="keep_me_updated" <?= $required_keep_me_updated? 'required' : '' ?>>
                                             <label for="keep-me-update">
                                                 <?= get_post_meta(get_the_ID(), 'petition_form_keep_me_updated', true ) ?>
                                             </label>
