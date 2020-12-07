@@ -1,6 +1,7 @@
 <?php 
     function sign_petition($params) {
         $petition_id = $params['petition_id'];
+        $child_id = $params['child_id'];
         $name = $params['name'];
         $email = $params['email'];
         $country = $params['country'];
@@ -26,8 +27,6 @@
             exit;
         }
 
-
-
         $post_metadatum = [
             'petition_id' => $petition_id,
             'email' => $email,
@@ -43,7 +42,44 @@
         ];
 
         $post_id = wp_insert_post( $post_args, false );
-        return $post_id;
+        
+        if($post_id) {
+            $to = $email;
+            $intended_id = false;
+
+            if(get_post($child_id)) {
+                $subject = get_the_title($child_id) . " - Stop The Wall";
+                $message = get_post_meta($child_id, 'petition_email_signature', true );
+                $intended_id = $child_id;
+
+            } else {
+                $subject = get_the_title($petition_id) . " - Stop The Wall";
+                $message = get_post_meta($post_id, 'petition_email_signature', true );
+                $intended_id = $petition_id;
+            }
+
+            // Send mail to user
+            wp_mail( $to, $subject, $message );
+                        
+            // Send mail to admin
+            $to = get_option('admin_email');
+            $subject = "A new sign was made";
+            $message = "$name($email) from $country, signed your petition";
+            wp_mail( $to, $subject, $message );
+
+            // Send mail to target
+            if(!empty(get_post_meta($intended_id, 'petition_target_email', true ))) {
+                // Campo message customizavel
+                wp_mail( $to, $subject, $message );
+            }
+
+
+            // print_r( [ $subject, $message, $to, $email ]);
+            
+
+        }
+
+        // return $post_id;
     }
 
     add_action( 'rest_api_init', function () {
@@ -72,6 +108,12 @@
 
                 'keep_me_updated' => array(
                     'required' => true,
+                ),
+
+                'child_id' => array(
+                    'validate_callback' => function($param, $request, $key) {
+                        return is_numeric( $param );
+                    }
                 ),
 
                 'g-recaptcha-response' => array(
