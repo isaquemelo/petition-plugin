@@ -422,6 +422,8 @@ if(empty($goal)) {
                                     </fieldset>
 
                                     <input type="text" id="petition-id" name="petition_id" hidden value="<?= $petition_id ?>">
+                                    <input type="text" id="child_id" name="child_id" hidden value="<?= $child_id ?>">
+                                    
                                     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
                                     <button class="g-recaptcha hide" data-sitekey="6LeEm6oUAAAAAP-7tz9-3FTvB-awGdDvt5VqXULK" data-size="invisible">Submit</button>
 
