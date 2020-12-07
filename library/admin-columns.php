@@ -159,18 +159,18 @@ function petition_table_content($column_name, $post_id) {
             ]
         ]);
 
-        echo "<ul>";
+        // echo "<ul>";
         while ( $petitions_query->have_posts() ) {
             $petitions_query->the_post();
             // $values[get_the_title()] = get_the_ID();
             $petition_name = get_the_title();
             $petition_permalink = get_edit_post_link(get_the_ID());
     
-            echo "<li>";
+            echo "<div>";
             echo "<a href=\"{$petition_permalink}\">{$petition_name} </a>";
-            echo "</li>";
+            echo "</div>";
         }
-        echo "</ul>";
+        // echo "</ul>";
 
         //var_dump($values);
 
