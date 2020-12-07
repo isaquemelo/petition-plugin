@@ -107,6 +107,20 @@ if (is_admin()) {
             //$query->query_vars['post_type'] = 'post'; 
             //var_dump($query);
         }
+
+        if ($post_type == 'petition' && $pagenow == 'edit.php') {
+            if(!$query->get('ignore_filtering') ) {
+                $query->query_vars['meta_query'] = [
+                    [
+                        'key' => 'petition_parent',
+                        'compare' => 'NOT EXISTS'
+                    ]
+                ]; 
+            }
+
+            //$query->query_vars['post_type'] = 'post'; 
+            //var_dump($query);
+        }
     });
 }
 
@@ -115,6 +129,7 @@ add_filter('manage_petition_posts_columns', 'petition_table_head');
 
 function petition_table_head($defaults) {
     $defaults['signatures_count']  = 'Signatures';
+    $defaults['child_petitions']  = 'Associated petitions';
     $defaults['view_signatures']  = '';
     return $defaults;
 }
@@ -128,8 +143,41 @@ function petition_table_content($column_name, $post_id) {
     }
 
     if ($column_name == 'view_signatures') {
-        $country = get_post_meta($post_id, 'country', true);
         echo  "<a href=\"edit.php?post_type=signature&admin_filter_petition=$post_id\">View signatures</a>";
+    }
+
+    if ($column_name == 'child_petitions') {
+        $petitions_query = new WP_Query([
+            'post_type' => 'petition',
+            'ignore_filtering' => true,
+            'meta_query' => [
+                [
+                'key' => 'petition_parent',
+                'value' => strval($post_id),
+                'compare' => '='
+                ]
+            ]
+        ]);
+
+        echo "<ul>";
+        while ( $petitions_query->have_posts() ) {
+            $petitions_query->the_post();
+            // $values[get_the_title()] = get_the_ID();
+            $petition_name = get_the_title();
+            $petition_permalink = get_edit_post_link(get_the_ID());
+    
+            echo "<li>";
+            echo "<a href=\"{$petition_permalink}\">{$petition_name} </a>";
+            echo "</li>";
+        }
+        echo "</ul>";
+
+        //var_dump($values);
+
+        wp_reset_postdata();
+
+        $country = get_post_meta($post_id, 'country', true);
+        // echo  "<a href=\"edit.php?post_type=signature&admin_filter_petition=$post_id\">View signatures</a>";
     }
 
     // if ($column_name == 'petition') {

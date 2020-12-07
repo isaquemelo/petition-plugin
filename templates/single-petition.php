@@ -20,12 +20,12 @@ if(empty($goal)) {
 ?>
 
 <div class="petition">
-    <div class="petition--header">
+    <div class="petition--header<?= empty(get_the_content())? ' empty-content' : ' has-content' ?><?= has_post_thumbnail()? ' has-thumbnail' : ' no-thumb' ?>">
         <div class="featured-image">
             <?php the_post_thumbnail( 'large' ); ?>
         </div>
 
-        <div class="petition--content <?= empty(get_the_content())? ' empty-content' : ' has-content' ?><?= has_post_thumbnail()? ' has-thumbnail' : ' no-thumb' ?>">
+        <div class="petition--content<?= empty(get_the_content())? ' empty-content' : ' has-content' ?><?= has_post_thumbnail()? ' has-thumbnail' : ' no-thumb' ?>">
             <div class="language-selector">
             <?php 
                 $petition_children = get_languages($petition_id);
