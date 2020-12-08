@@ -57,7 +57,7 @@ function func_export_all_posts() {
                 $petition = get_the_title(strval($_GET['admin_filter_petition']));
                 $date = get_the_date();
 
-                fputcsv($file, array(get_the_ID(), $email, $country, $keep_me_updated, $petition, $date));
+                fputcsv($file, array($name, $email, $country, $keep_me_updated, $petition, $date));
             }
   
             exit();
