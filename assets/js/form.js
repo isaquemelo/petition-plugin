@@ -107,10 +107,15 @@ window.addEventListener('DOMContentLoaded', function() {
 
             pushFormData({...defaultValues, ...filteredData}).then(response => {
                 if(Number.isInteger(response)) {
-                    // Hide loader
-                    document.querySelector('.loading-area').style.display = 'none';
-                    document.querySelector('.success-message').style.display = 'block';
-                    // location.reload();
+                    if(parseInt(response) > 0) {
+                        // Hide loader
+                        document.querySelector('.loading-area').style.display = 'none';
+                        document.querySelector('.success-message').style.display = 'block';
+                        // location.reload();
+                    } else {
+                        document.querySelector('.loading-area').style.display = 'none';
+                        document.querySelector('.repeated-signature-message').style.display = 'block';
+                    }
                 }
             })
         })
