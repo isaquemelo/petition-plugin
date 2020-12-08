@@ -13,6 +13,7 @@ include __DIR__ . '/library/ajax.php';
 include __DIR__ . '/library/metaboxes.php';
 include __DIR__ . '/library/register-sidebars.php';
 include __DIR__ . '/library/export-signatures.php';
+include __DIR__ . '/library/settings-page.php';
 // include __DIR__ . '/pagebuilder.php';
 
 add_filter('template_include', 'petitions_single_template');
