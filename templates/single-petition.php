@@ -437,6 +437,10 @@ if(empty($goal)) {
                                 <div class="success-message">
                                     <?= get_post_meta($child_id, 'petition_terms_thank_text', true); ?>
                                 </div>
+
+                                <div class="repeated-signature-message">
+                                    <?= get_post_meta($child_id, 'petition_terms_repeated_signature_text', true); ?>
+                                </div>
                             </div>
 
                         </div>
