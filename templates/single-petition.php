@@ -425,7 +425,9 @@ if(empty($goal)) {
                                     <input type="text" id="child_id" name="child_id" hidden value="<?= $child_id ?>">
                                     
                                     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-                                    <button class="g-recaptcha hide" data-sitekey="6LeEm6oUAAAAAP-7tz9-3FTvB-awGdDvt5VqXULK" data-size="invisible">Submit</button>
+                                    <?php if(!empty(get_option('captcha_site_key'))): ?>
+                                    <button class="g-recaptcha hide" data-sitekey="<?= get_option('captcha_site_key') ?>" data-size="invisible">Submit</button>
+                                    <?php endif; ?>
 
                                     <button style="width: 100%" class="button primary mt20 block"><?= get_post_meta(get_the_ID(), 'petition_submit_text', true) ?></button>
                                 </form>
