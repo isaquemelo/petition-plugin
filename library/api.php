@@ -8,6 +8,36 @@
         $keep_me_updated = $params['keep_me_updated'];
         $gcaptcha = $params['g-recaptcha-response'];
 
+        // Chek if there's a signature already
+        $args = [
+            'post_type' => 'signature',
+            'ignore_filtering' => true,
+            'posts_per_page' => -1,
+            'post_status' => 'publish',
+            'meta_query' => [
+                'relation' => 'AND',
+                [
+                    'key' => 'petition_id',
+                    'value' => $petition_id,
+                    'compare' => '='
+                ],
+
+                [
+                    'key' => 'email',
+                    'value' => $email,
+                    'compare' => '='
+                ]
+
+            ]
+        ];
+
+        $arr_post = get_posts($args);
+
+        if(sizeof($arr_post) >= 1) {
+            return -1;
+        }
+
+
         if(!class_exists('ReCaptchaResponse')){
             require_once ('recaptchalib.php');
         }
@@ -69,7 +99,7 @@
                 $message = "$name($email) from $country, signed petition";
                 wp_mail( $to, $subject, $message );
             }
-            
+
             // print_r( [ $subject, $message, $to, $email ]);
         }
 
@@ -116,5 +146,6 @@
             ],
 
             'permission_callback' => '__return_true',
+
         ) );
     } );

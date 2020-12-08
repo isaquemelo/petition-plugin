@@ -152,6 +152,14 @@ add_action('cmb2_admin_init', function() {
         'type' => 'textarea',
         'default' => 'Thank you for your signature!',
     ]);
+
+    $cmb_petition_form->add_field([
+        'name' => 'Repeated signature message',
+        'id' => 'petition_terms_repeated_signature_text',
+        'description' => 'This message will be shown after the signature is made',
+        'type' => 'textarea',
+        'default' => 'Signature already made!',
+    ]);
    
     // Signature post type fields
     $cmb_signature = new_cmb2_box([
