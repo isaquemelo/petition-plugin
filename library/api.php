@@ -41,8 +41,8 @@
         if(!class_exists('ReCaptchaResponse')){
             require_once ('recaptchalib.php');
         }
-    
-        $secret = "6LeEm6oUAAAAAO-CaT3K3kuF610AxNB4rolzylcc";
+        
+        $secret = get_option('captcha_secret');
         $response = null;
         $reCaptcha = new \ReCaptcha($secret);
         $capcha_response = $gcaptcha;
