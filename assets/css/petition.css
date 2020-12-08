@@ -7,6 +7,15 @@
   --over-accent-color: white;
   font-size: 16px;
 }
+.single-petition .petition--header.empty-content.has-thumbnail {
+  position: relative;
+}
+.single-petition .petition--header.empty-content.has-thumbnail .featured-image, .single-petition .petition--header.empty-content.has-thumbnail .featured-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+}
 .single-petition .petition--header .featured-image, .single-petition .petition--header .featured-image img {
   width: 100%;
 }
@@ -32,6 +41,37 @@
   border-radius: 10px;
   padding: 0 8px;
   font-family: var(--secondary-font-family);
+}
+.single-petition .petition--content.empty-content {
+  margin-top: 0;
+}
+.single-petition .petition--content.empty-content .content-wrapper {
+  grid-template-columns: 1fr;
+  margin-top: 35px;
+}
+.single-petition .petition--content.empty-content .content-wrapper .sidebar {
+  width: 54%;
+  margin: 0 auto;
+}
+.single-petition .petition--content.empty-content .language-selector {
+  justify-content: center;
+  z-index: 1;
+  position: relative;
+}
+.single-petition .petition--content.empty-content.no-thumb .content-wrapper {
+  margin-top: -20px;
+}
+.single-petition .petition--content.empty-content.has-thumbnail .language-selector {
+  justify-content: center;
+  margin-top: -65px;
+  padding-top: 65px;
+}
+.single-petition .petition--content.has-content.no-thumb {
+  margin-top: 20px;
+}
+.single-petition .petition--content.has-content.no-thumb .language-selector {
+  position: absolute;
+  right: 0;
 }
 .single-petition .petition--content .content-wrapper {
   display: grid;
@@ -209,16 +249,16 @@
   text-transform: none;
   width: 100%;
 }
-.single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form .success-message {
+.single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form .success-message, .single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form .repeated-signature-message {
   text-align: center;
   font-family: var(--featured-font-family);
   font-weight: bold;
 }
-.single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form .loading-area, .single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form .success-message {
+.single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form .loading-area, .single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form .success-message, .single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form .repeated-signature-message {
   display: none;
 }
 .single-petition .petition--content .content-wrapper .post-content {
-  padding-top: 65px;
+  padding-top: 32px;
 }
 .single-petition .petition .hide {
   display: none !important;

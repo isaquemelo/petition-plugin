@@ -11,8 +11,19 @@
 
     .petition {
         &--header {
-            .featured-image {
+            &.empty-content.has-thumbnail {
+                position: relative;
+                .featured-image { 
+                    &, & img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        position: absolute;
+                    }
+                }
+            }
 
+            .featured-image {
                 &,
                 & img {
                     width: 100%;
@@ -72,8 +83,9 @@
 
                 &.has-thumbnail {
                     .language-selector {
-                        justify-content: flex-end;
-                        margin-top: -115px;
+                        justify-content: center;
+                        margin-top: -65px;
+                        padding-top: 65px;
                     }
                 }
             }
@@ -302,13 +314,13 @@
                                     width: 100%;
                                 }
 
-                                .success-message {
+                                .success-message, .repeated-signature-message {
                                     text-align: center;
                                     font-family: var(--featured-font-family);
                                     font-weight: bold;
                                 }
 
-                                .loading-area, .success-message {
+                                .loading-area, .success-message, .repeated-signature-message {
                                     display: none;
                                 }
 
