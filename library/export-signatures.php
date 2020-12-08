@@ -3,7 +3,7 @@
 function admin_post_list_add_export_button( $which ) {
     global $typenow;
   
-    if ( 'signature' === $typenow && 'top' === $which ) {
+    if ( 'signature' === $typenow && 'top' === $which && (!isset($_GET['post_status']) || $_GET['post_status'] === "all" ||  $_GET['post_status'] === "publish" ) ) {
         ?>
         <input type="submit" name="export_all_posts" class="button button-primary" value="<?php _e('Export signatures'); ?>" />
         <?php
@@ -18,22 +18,23 @@ function func_export_all_posts() {
             'post_type' => 'signature',
             'ignore_filtering' => true,
             'posts_per_page' => -1,
-           
+            'post_status' => 'publish',
         ];
 
         if(isset($_GET['admin_filter_petition'])) {
             $args['meta_query'] = [
+                [
                     'key' => 'petition_id',
-                    'value' => strval($_GET['admin_filter_petition']),
+                    'value' => $_GET['admin_filter_petition'],
                     'compare' => '='
-                
+                ]
             ];
         }
   
         global $post;
         $arr_post = get_posts($args);
 
-        // var_dump(sizeof($arr_post));
+        // var_dump($args);
         
         if ($arr_post) {
   
@@ -56,7 +57,7 @@ function func_export_all_posts() {
                 $petition = get_the_title(strval($_GET['admin_filter_petition']));
                 $date = get_the_date();
 
-                fputcsv($file, array($name, $email, $country, $keep_me_updated, $petition, $date));
+                fputcsv($file, array(get_the_ID(), $email, $country, $keep_me_updated, $petition, $date));
             }
   
             exit();

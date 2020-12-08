@@ -61,25 +61,19 @@
             // Send mail to user
             wp_mail( $to, $subject, $message );
                         
-            // Send mail to admin
-            $to = get_option('admin_email');
-            $subject = "A new sign was made";
-            $message = "$name($email) from $country, signed your petition";
-            wp_mail( $to, $subject, $message );
-
             // Send mail to target
             if(!empty(get_post_meta($intended_id, 'petition_target_email', true ))) {
                 // Campo message customizavel
+                $to = get_post_meta($intended_id, 'petition_target_email', true );
+                $subject = "A new sign was made";
+                $message = "$name($email) from $country, signed petition";
                 wp_mail( $to, $subject, $message );
             }
-
-
-            // print_r( [ $subject, $message, $to, $email ]);
             
-
+            // print_r( [ $subject, $message, $to, $email ]);
         }
 
-        // return $post_id;
+        return $post_id;
     }
 
     add_action( 'rest_api_init', function () {
