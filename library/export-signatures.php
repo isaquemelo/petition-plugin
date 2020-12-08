@@ -57,6 +57,13 @@ function func_export_all_posts() {
                 $petition = get_the_title(strval($_GET['admin_filter_petition']));
                 $date = get_the_date();
 
+
+                if($keep_me_updated === "on") {
+                    $keep_me_updated = "Yes";
+                } else {
+                    $keep_me_updated = "No";
+                }
+
                 fputcsv($file, array($name, $email, $country, $keep_me_updated, $petition, $date));
             }
   
