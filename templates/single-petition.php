@@ -108,7 +108,7 @@ if(empty($goal)) {
                                 
                             </div>
 
-                            <div class="signatures-history">
+                            <div class="signatures-history" data-signature-text="<?= get_post_meta($child_id, 'petition_form_submission', true) ?>">
                                 <?php 
                                     // The Query
                                     $the_query = new WP_Query( [

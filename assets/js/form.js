@@ -28,7 +28,6 @@ function loadingForm(formElement) {
 
 
 window.addEventListener('DOMContentLoaded', function() {
-
     // Recaptchar
     setTimeout(function() {
         if(grecaptcha){
@@ -49,6 +48,21 @@ window.addEventListener('DOMContentLoaded', function() {
     const skipedInputs = ['accept-terms'];
     const defaultValues = { 'keep_me_updated': false };
 
+    // Status area
+    const counting = document.querySelector('.signatures-count .quantity span:first-child');
+    const progressCounting = document.querySelector('.progress-info span:first-child');
+    const progressArea = document.querySelector('.progressed-area');
+
+    const signaturesList = document.querySelector('.signatures-history');
+    const lastSignature = document.querySelector('.signatures-history .user-signature:first-child');
+    const firstSignature = document.querySelector('.signatures-history .user-signature:last-child');
+
+    let goal = document.querySelector('.progress-info span:last-child');
+
+    if(goal) {
+        goal = parseInt(goal.innerHTML);
+    }
+
     if(petitionForm) {
         petitionForm.addEventListener('submit', function(e) {
             const formData = new FormData(petitionForm);
@@ -68,7 +82,7 @@ window.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            console.log(filteredData);
+            // console.log(filteredData);
             loadingForm(petitionForm);
 
             pushFormData({...defaultValues, ...filteredData}).then(response => {
@@ -77,8 +91,23 @@ window.addEventListener('DOMContentLoaded', function() {
                         // Hide loader
                         document.querySelector('.loading-area').style.display = 'none';
                         document.querySelector('.success-message').style.display = 'block';
+
+
+                        if(counting && progressCounting && progressArea) {
+                            counting.innerHTML = parseInt(counting.innerHTML) + 1;
+                            progressCounting.innerHTML = parseInt(progressCounting.innerHTML) + 1;
+                            progressArea.style.width = (parseInt(progressCounting.innerHTML) / goal) * 100 + "%";
+
+                            const newSignature = firstSignature.cloneNode(true);
+                            newSignature.innerHTML = '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="svg-inline--fa fa-user fa-w-14 fa-3x"><path fill="currentColor" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z" class=""></path></svg>' 
+                                                     + filteredData['name'] + " "
+                                                     + signaturesList.getAttribute('data-signature-text');
+                            signaturesList.insertBefore(newSignature, lastSignature);
+
+                        }
                         // location.reload();
                     } else {
+                        
                         document.querySelector('.loading-area').style.display = 'none';
                         document.querySelector('.repeated-signature-message').style.display = 'block';
                     }
