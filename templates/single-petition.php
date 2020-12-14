@@ -77,7 +77,7 @@ if(empty($goal)) {
                                     <?= get_post_meta(get_the_ID(), 'petition_form_join_title', true ) ?>
                                 </div>
 
-                                <?php if($goal): ?>
+                                <?php if($goal && $show_count): ?>
                                     <div class="progress">
                                         <?php 
                                             if($signatures_count < $goal) {
