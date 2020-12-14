@@ -1,7 +1,7 @@
 <?php
 
-add_action('cmb2_admin_init', function() {
-    
+add_action('cmb2_admin_init', function () {
+
     $cmb_petition_page = new_cmb2_box([
         'id' => 'petition_page_metabox',
         'title' => 'Petitions details',
@@ -37,7 +37,7 @@ add_action('cmb2_admin_init', function() {
         'name' => 'Quantity of signatures shown',
         'id' => 'petition_signatures_shown',
         'type' => 'text',
-        'default' => 5, 
+        'default' => 5,
     ]);
 
     $cmb_petition_page->add_field([
@@ -79,8 +79,11 @@ add_action('cmb2_admin_init', function() {
         'name' => 'The goal',
         'id' => 'petition_form_goal',
         'type' => 'text',
-        'default' => 'The goal'
+        'default' => 'The goal',
+        'render_row_cb' => 'cmb_goal_row_cb',
+
     ]);
+
 
     $cmb_petition_form->add_field([
         'name' => 'Recently submission',
@@ -160,7 +163,7 @@ add_action('cmb2_admin_init', function() {
         'type' => 'textarea',
         'default' => 'Signature already made!',
     ]);
-   
+
     // Signature post type fields
     $cmb_signature = new_cmb2_box([
         'id' => 'singature_metabox',
@@ -200,14 +203,39 @@ add_action('cmb2_admin_init', function() {
     ]);
 });
 
-
 function petition_terms_text_callback($value) {
-       /*
+    /*
      * Do your custom sanitization. 
      * strip_tags can allow whitelisted tags
      * http://php.net/manual/en/function.strip-tags.php
      */
-    $value = strip_tags( $value, '<p><a><br><br/>' );
+    $value = strip_tags($value, '<p><a><br><br/>');
 
     return $value;
+}
+
+
+function petition_goal_callback($value) {
+    return $value;
+}
+
+
+function cmb_goal_row_cb($field_args, $field) {
+    $id          = $field->args('id');
+    $label       = $field->args('name');
+    $name        = $field->args('_name');
+    $value       = $field->escaped_value();
+    $description = $field->args('description');
+?>
+
+    <div class="cmb-row cmb-type-text cmb2-id-petition-form-signatures table-layout" data-fieldtype="text">
+        <div class="cmb-th">
+            <label for="<?php echo $id; ?>"><?php echo $label; ?></label>
+        </div>
+
+        <div class="cmb-td">
+            <input id="<?php echo $id; ?>" type="number" min="0" name="<?php echo $name; ?>" value="<?php echo $value; ?>" />
+        </div>
+    </div>
+<?php
 }
