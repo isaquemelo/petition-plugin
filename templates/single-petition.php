@@ -119,11 +119,11 @@ if(empty($goal)) {
                                             'value' => $petition_id,
                                             'compare' => '='
                                         ],
-                                        'posts_per_page' => get_post_meta($petition_id, 'petition_signatures_shown', true)
+                                        'posts_per_page' => get_post_meta($child_id, 'petition_signatures_shown', true)
                                     ] );
                                     
                                     // The Loop
-                                    if ( $the_query->have_posts() &&  get_post_meta($petition_id, 'petition_signatures_shown', true) !== '0') {
+                                    if ( $the_query->have_posts() &&  get_post_meta($child_id, 'petition_signatures_shown', true) !== '0') {
                                         while ( $the_query->have_posts() ) {
                                             $the_query->the_post(); ?>
                                             <div class="user-signature">
