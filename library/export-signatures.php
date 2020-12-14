@@ -5,7 +5,7 @@ function admin_post_list_add_export_button( $which ) {
   
     if ( 'signature' === $typenow && 'top' === $which && (!isset($_GET['post_status']) || $_GET['post_status'] === "all" ||  $_GET['post_status'] === "publish" ) ) {
         ?>
-        <input type="submit" name="export_all_posts" class="button button-primary" value="<?php _e('Export signatures'); ?>" />
+        <input type="submit" name="export_all_posts" class="button button-primary" value="<?php _e('Export selected signatures'); ?>" />
         <?php
     }
 }
@@ -21,7 +21,7 @@ function func_export_all_posts() {
             'post_status' => 'publish',
         ];
 
-        if(isset($_GET['admin_filter_petition'])) {
+        if(isset($_GET['admin_filter_petition']) && !empty($_GET['admin_filter_petition']) && isset($_GET['post'])) {
             $args['meta_query'] = [
                 [
                     'key' => 'petition_id',
@@ -29,12 +29,14 @@ function func_export_all_posts() {
                     'compare' => '='
                 ]
             ];
-        }
-  
+
+            $args['post__in'] = $_GET['post'];
+        } 
+        
         global $post;
         $arr_post = get_posts($args);
 
-        // var_dump($args);
+        // var_dump($arr_post);
         
         if ($arr_post) {
   
