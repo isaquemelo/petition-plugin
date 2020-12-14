@@ -38,6 +38,8 @@ add_action('cmb2_admin_init', function () {
         'id' => 'petition_signatures_shown',
         'type' => 'text',
         'default' => 5,
+        'render_row_cb' => 'cmb_goal_row_cb',
+
     ]);
 
     $cmb_petition_page->add_field([
