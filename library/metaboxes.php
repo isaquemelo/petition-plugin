@@ -31,6 +31,7 @@ add_action('cmb2_admin_init', function () {
         'id' => 'petition_goal',
         'type' => 'text',
         'description' => "You don't need to fill this if this petition is associated with a parent",
+        'render_row_cb' => 'cmb_goal_row_cb',
     ]);
 
     $cmb_petition_page->add_field([
@@ -89,7 +90,7 @@ add_action('cmb2_admin_init', function () {
         'id' => 'petition_form_goal',
         'type' => 'text',
         'default' => 'The goal',
-        'render_row_cb' => 'cmb_goal_row_cb',
+        // 'render_row_cb' => 'cmb_goal_row_cb',
 
     ]);
 
@@ -244,6 +245,7 @@ function cmb_goal_row_cb($field_args, $field) {
 
         <div class="cmb-td">
             <input id="<?php echo $id; ?>" type="number" min="0" name="<?php echo $name; ?>" value="<?php echo $value; ?>" />
+            <p class="cmb2-metabox-description"><?= $description ?></p>
         </div>
     </div>
 <?php
