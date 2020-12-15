@@ -105,7 +105,6 @@ if(empty($goal)) {
                                     </div>
                                 <?php endif; ?>
 
-                                
                             </div>
 
                             <div class="signatures-history" data-signature-text="<?= get_post_meta($child_id, 'petition_form_submission', true) ?>">
@@ -143,6 +142,14 @@ if(empty($goal)) {
                                 
                                 ?>
                             </div>
+
+                            <?php 
+                                if($signatures_count >= $goal): ?>
+                                    <p class="goal-reached">
+                                        <?= get_post_meta(get_the_ID(), 'petition_goal_reached_message', true ) ?>
+                                    </p>
+                                <?php endif;
+                            ?>
 
                             <div class="petition-form">
                                 <form action="?" method="POST" id="petition-form" data-petition-id="<?= $petition_id ?>" onsubmit="return false;">

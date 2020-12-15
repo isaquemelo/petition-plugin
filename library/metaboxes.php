@@ -56,6 +56,13 @@ add_action('cmb2_admin_init', function () {
         'default' => 'Thank you for your signature!',
     ]);
 
+    $cmb_petition_page->add_field([
+        'name' => 'Goal reached message',
+        'id' => 'petition_goal_reached_message',
+        'type' => 'textarea',
+        'default' => "Thanks for your support! We've managed to reach our goal. But, feel free to help us to increase this number!",
+    ]);
+
     $cmb_petition_form = new_cmb2_box([
         'id' => 'petition_form_metabox',
         'title' => 'Fields translation',
