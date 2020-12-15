@@ -1,5 +1,5 @@
 <?php 
-get_header();
+get_header('single');
 the_post();
 
 $petition_id = get_post_meta(get_the_ID(), 'petition_parent', true);
@@ -111,13 +111,14 @@ if(empty($goal)) {
                             <div class="signatures-history" data-signature-text="<?= get_post_meta($child_id, 'petition_form_submission', true) ?>">
                                 <?php 
                                     // The Query
-                                    // var_dump(intval(get_post_meta($petition_id, 'petition_signatures_shown', true)));
                                     $the_query = new WP_Query( [
                                         'post_type' => 'signature', 
                                         'meta_query' => [
-                                            'key' => 'petition_id',
-                                            'value' => $petition_id,
-                                            'compare' => '='
+                                            [
+                                                'key' => 'petition_id',
+                                                'value' => $petition_id,
+                                                'compare' => '='
+                                            ]
                                         ],
                                         'posts_per_page' => get_post_meta($child_id, 'petition_signatures_shown', true)
                                     ] );
