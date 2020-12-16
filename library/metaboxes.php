@@ -55,6 +55,7 @@ add_action('cmb2_admin_init', function () {
         'id' => 'petition_email_signature',
         'type' => 'textarea',
         'default' => 'Thank you for your signature!',
+        'sanitization_cb' => 'petition_terms_text_callback', // function should return a sanitized value
     ]);
 
     $cmb_petition_page->add_field([
@@ -146,7 +147,7 @@ add_action('cmb2_admin_init', function () {
     $cmb_petition_form->add_field([
         'name' => 'Terms of use textfield (HTML allowed)',
         'id' => 'petition_terms_text',
-        'type' => 'textarea_code',
+        'type' => 'textarea',
         'default' => 'I accept the terms of use',
         'sanitization_cb' => 'petition_terms_text_callback', // function should return a sanitized value
     ]);

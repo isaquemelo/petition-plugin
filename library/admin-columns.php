@@ -53,6 +53,15 @@ if (is_admin()) {
             $petitions_query = new WP_Query([
                 'post_type' => 'petition',
                 'ignore_filtering' => true,
+                'posts_per_page' => -1,
+                'post_status' => 'publish',
+                'meta_query' => [
+                    [
+                        'key' => 'petition_parent',
+                        'compare' => 'NOT EXISTS'
+                    ]
+                ]
+
             ]);
 
             $values = array();
@@ -93,7 +102,7 @@ if (is_admin()) {
         global $pagenow;
         $post_type = (isset($_GET['post_type'])) ? $_GET['post_type'] : 'post';
 
-        if ($post_type == 'signature' && $pagenow == 'edit.php' && isset($_GET['admin_filter_petition']) && !empty($_GET['admin_filter_petition'])) {
+        if ($post_type == 'signature' && $pagenow == 'edit.php' && isset($_GET['admin_filter_petition']) && !empty($_GET['admin_filter_petition']) ) {
             if(!$query->get('ignore_filtering') ) {
                 $query->query_vars['meta_query'] = [
                     [
@@ -108,7 +117,7 @@ if (is_admin()) {
             //var_dump($query);
         }
 
-        if ($post_type == 'petition' && $pagenow == 'edit.php') {
+        if ($post_type == 'petition' && $pagenow == 'edit.php' && ( !isset($_GET['post_status']) || $_GET['post_status'] != 'trash' )) {
             if(!$query->get('ignore_filtering') ) {
                 $query->query_vars['meta_query'] = [
                     [
@@ -150,11 +159,12 @@ function petition_table_content($column_name, $post_id) {
         $petitions_query = new WP_Query([
             'post_type' => 'petition',
             'ignore_filtering' => true,
+            'post_status' => 'publish', 
             'meta_query' => [
                 [
-                'key' => 'petition_parent',
-                'value' => strval($post_id),
-                'compare' => '='
+                    'key' => 'petition_parent',
+                    'value' => strval($post_id),
+                    'compare' => '='
                 ]
             ]
         ]);
