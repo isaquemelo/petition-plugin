@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Oswald:wght@300;500;700&display=swap");
 .single-petition {
   --featured-font-family: "Oswald";
   --secondary-font-family: "Open Sans";
@@ -171,7 +170,6 @@
 .single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .signatures-history .user-signature {
   color: #0B0B07;
   opacity: 0.5;
-  display: flex;
 }
 .single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .signatures-history .user-signature:not(:last-child) {
   margin-bottom: 15px;
@@ -186,9 +184,7 @@
 .single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form input[hidden] {
   display: none;
 }
-.single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form input[type=text],
-.single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form input[type=email],
-.single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form select {
+.single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form input[type=text], .single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form input[type=email], .single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form select {
   width: 100%;
   border-radius: 6px;
   background: white;
@@ -200,9 +196,7 @@
   font-family: var(--secondary-font-family);
   margin-bottom: 8px;
 }
-.single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form input[type=text]::placeholder,
-.single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form input[type=email]::placeholder,
-.single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form select::placeholder {
+.single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form input[type=text]::placeholder, .single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form input[type=email]::placeholder, .single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form select::placeholder {
   color: grey;
 }
 .single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form label {
@@ -263,7 +257,6 @@
 .single-petition .petition .hide {
   display: none !important;
 }
-
 .lds-ellipsis {
   display: block;
   position: relative;
@@ -271,7 +264,6 @@
   height: 80px;
   margin: 0 auto;
 }
-
 .lds-ellipsis div {
   position: absolute;
   top: 33px;
@@ -281,27 +273,22 @@
   background: var(--primary-color);
   animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
-
 .lds-ellipsis div:nth-child(1) {
   left: 8px;
   animation: lds-ellipsis1 0.6s infinite;
 }
-
 .lds-ellipsis div:nth-child(2) {
   left: 8px;
   animation: lds-ellipsis2 0.6s infinite;
 }
-
 .lds-ellipsis div:nth-child(3) {
   left: 32px;
   animation: lds-ellipsis2 0.6s infinite;
 }
-
 .lds-ellipsis div:nth-child(4) {
   left: 56px;
   animation: lds-ellipsis3 0.6s infinite;
 }
-
 @keyframes lds-ellipsis1 {
   0% {
     transform: scale(0);
