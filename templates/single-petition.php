@@ -458,8 +458,48 @@ if(empty($goal)) {
 
 
                     </div>
+                    
+                    <div class="sidebar-content">
+                        <?php 
+                            $share_title = get_post_meta($child_id, 'petition_form_share_title', true);
+                            $description = get_post_meta($child_id, 'petition_form_share_description', true);
 
-                    <?php dynamic_sidebar('petition_plugin_sidebar') ?>
+                            if(!empty($share_title)): 
+                        ?>
+                            <div class="share-petition">
+                                <div class="share-petition--title">
+                                    <h3><?= $share_title ?></h3>
+                                </div>
+
+                                <div class="share-petition--content">
+                                    <?= $description ?>
+                                </div>
+
+                                <?php 
+                                    $text = wp_strip_all_tags($description);
+                                    $permalink = get_permalink( $child_id );
+
+                                    $max_length = 280 - strlen($permalink);
+
+                                    if (strlen($text) > $max_length){
+                                        $offset = ($max_length - 3) - strlen($text);
+                                        $text = substr($text, 0, strrpos($text, ' ', $offset)) . '...';
+                                    }
+                                
+                                ?>
+
+                                <div class="share-petition--networks">
+                                    <div class="facebook">
+                                        <a href="https://www.facebook.com/sharer/sharer.php?u=<?= $permalink ?>&quote=<?= urlencode($text) ?>" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                    </div>
+                                    <div class="twitter">
+                                        <a href="https://twitter.com/intent/tweet?text=<?= urlencode($text) ?>&url=<?= $permalink ?>" target="_blank"><i class="fab fa-twitter"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                        <?php dynamic_sidebar('petition_plugin_sidebar') ?>
+                    </div>
                 </div>
 
                 <div class="post-content">
