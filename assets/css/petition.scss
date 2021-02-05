@@ -328,6 +328,82 @@
                             }
                         }
                     }
+
+                    &-content {
+                        .share-petition {
+                            border-top: 5px solid var(--accent-color);
+                            background-color: #F5F5F5;
+                            padding: 37px 10px;
+                            margin-bottom: 30px;
+
+                            &--title {
+                                color: var(--accent-color);
+                                text-align: center;
+                                text-transform: uppercase;
+                                font-size: 1.25rem;
+                                margin-bottom: 30px;
+                                font-family: var(--featured-font-family);
+                            }
+
+                            &--content {
+                                font-family: var(--secondary-font-family);
+                                text-align: center;
+                                margin-bottom: 30px ;
+                                line-height: 22px;
+                                padding: 0 15px;
+
+                                p {
+                                    font-size: 16px;
+                                }
+                            }
+
+                            &--networks {
+                                display: flex;
+                                justify-content: center;
+
+                                & div {
+                                    &:not(:last-child) {
+                                        margin-right: 40px;
+                                    }
+
+                                    a {
+                                        width: 90px;
+                                        height: 90px;
+                                        font-size: 2rem;
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        border-radius: 50%;
+                                        transition: transform .2s ease-in-out;
+
+                                        &:hover {
+                                            transform: scale(1.07);
+                                            transition: transform .2s ease-in-out;
+                                            font-weight: normal;
+
+                                        }
+
+                                        i {
+                                            color: white;
+                                        }
+                                    }
+
+
+                                    &.facebook a{
+                                        background-color: #0E66AC;
+                                    }
+
+
+                                    &.twitter a{
+                                        background-color: #4EA5EB;
+                                    }
+
+
+                                    
+                                }
+                            }
+                        }
+                    }
                 }
 
 

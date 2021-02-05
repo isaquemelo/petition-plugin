@@ -80,6 +80,22 @@ add_action('cmb2_admin_init', function () {
     ]);
 
     $cmb_petition_form->add_field([
+        'name' => 'Share title',
+        'id' => 'petition_form_share_title',
+        'type' => 'text',
+        'default' => '',
+        'description' => 'Leave empty to not create the share box'
+    ]);
+
+    $cmb_petition_form->add_field([
+        'name' => 'Share description',
+        'id' => 'petition_form_share_description',
+        'type' => 'wysiwyg',
+        'default' => '',
+    ]);
+
+
+    $cmb_petition_form->add_field([
         'name' => 'Signatures',
         'id' => 'petition_form_signatures',
         'type' => 'text',
