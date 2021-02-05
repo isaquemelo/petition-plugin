@@ -31,6 +31,7 @@
             ]
         ];
 
+        
         $arr_post = get_posts($args);
 
         if(sizeof($arr_post) >= 1) {
@@ -47,15 +48,16 @@
         $reCaptcha = new \ReCaptcha($secret);
         $capcha_response = $gcaptcha;
     
+        
         $response = $reCaptcha->verifyResponse(
             isset($_SERVER['HTTP_X_REAL_IP']) ? $_SERVER['HTTP_X_REAL_IP'] : $_SERVER['REMOTE_ADDR'],
             $capcha_response
         );
-    
         if(!$response || !$response->success){
             wp_send_json_error('{"success":false,"data":{"hide":0,"error":1,"response":"Error: Captcha inválido."}}');
             exit;
         }
+        
 
         $post_metadatum = [
             'petition_id' => $petition_id,
@@ -72,19 +74,19 @@
         ];
 
         $post_id = wp_insert_post( $post_args, false );
-        
+
         if($post_id) {
             $to = $email;
             $intended_id = false;
 
             if(get_post($child_id)) {
                 $subject = get_the_title($child_id) . " - Stop The Wall";
-                $message = get_post_meta($child_id, 'petition_email_signature', true );
+                $message = email_signature($child_id);
                 $intended_id = $child_id;
 
             } else {
                 $subject = get_the_title($petition_id) . " - Stop The Wall";
-                $message = get_post_meta($post_id, 'petition_email_signature', true );
+                $message = email_signature($post_id);
                 $intended_id = $petition_id;
             }
 
@@ -95,16 +97,36 @@
             if(!empty(get_post_meta($intended_id, 'petition_target_email', true ))) {
                 // Campo message customizavel
                 $to = get_post_meta($intended_id, 'petition_target_email', true );
-                $subject = "A new sign was made";
-                $message = "$name($email) from $country, signed petition";
+                $custom_subject = get_post_meta($petition_id, 'petition_target_subject', true );
+                $subject = $custom_subject ? $custom_subject : "New sign in: ".get_the_title($petition_id);
+                $message = "<p>".$post_metadatum['name']." from  signed.</p>
+                            <p>". get_the_content(null, false, $petition_id) ."</p>";
                 wp_mail( $to, $subject, $message );
+               
             }
-
-            // print_r( [ $subject, $message, $to, $email ]);
+            //print_r( [ $subject, $message, $to, $email ]);
         }
 
         return $post_id;
     }
+
+    function email_signature($post_id){
+
+        $default = "<p>Thank you for your signature!</p>
+                    <p>Please, share with your friends this petition: 
+                        <a href='https://www.facebook.com/sharer/sharer.php?u=".get_permalink($post_id)."'>
+                            share with Facebook
+                        </a>  / 
+                        <a href='https://twitter.com/intent/tweet?text=".urlencode(get_the_title($post_id).':').'&url='.get_permalink($post_id).">
+                            share with Twitter
+                        </a> 
+                    </p>";
+
+        $custom = get_post_meta($post_id, 'petition_email_signature', true );
+
+        return $custom ? $custom : $default;
+    }
+          
 
     add_action( 'rest_api_init', function () {
         register_rest_route( 'petition', '/sign', array(

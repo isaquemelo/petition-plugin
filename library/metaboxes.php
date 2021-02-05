@@ -27,6 +27,13 @@ add_action('cmb2_admin_init', function () {
     ]);
 
     $cmb_petition_page->add_field([
+        'name' => 'Target Subject',
+        'description' => 'Leave it empty if you don\'t  want to give a custom name to the target\'s email.',
+        'id' => 'petition_target_subject',
+        'type' => 'text',
+    ]);
+
+    $cmb_petition_page->add_field([
         'name' => 'Goal',
         'id' => 'petition_goal',
         'type' => 'text',
@@ -116,6 +123,7 @@ add_action('cmb2_admin_init', function () {
         'type' => 'text',
         'default' => 'Your name'
     ]);
+
 
     $cmb_petition_form->add_field([
         'name' => 'E-mail',
