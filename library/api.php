@@ -81,12 +81,12 @@
 
             if(get_post($child_id)) {
                 $subject = get_the_title($child_id) . " - Stop The Wall";
-                $message = email_acknowledgment($child_id);
+                $message = signer_email_acknowledgment($child_id);
                 $intended_id = $child_id;
 
             } else {
                 $subject = get_the_title($petition_id) . " - Stop The Wall";
-                $message = email_acknowledgment($post_id);
+                $message = signer_email_acknowledgment($post_id);
                 $intended_id = $petition_id;
             }
 
@@ -108,8 +108,6 @@
                 wp_mail( $to, $subject, $message );
                
             }
-
-
         }
 
         return $post_id;
@@ -123,23 +121,22 @@
         $name = $post_metadatum['name'];
         $country = $post_metadatum['country'];
 
-        return "<p>". $name . $from . $country . $signed . "</p> <p>".$description."</p>";
+        return "<p>". $name . $from . $country . $signed . "</p> 
+                <p>".$description."</p>";
     }
 
 
-    function email_acknowledgment($post_id){
+    function signer_email_acknowledgment($post_id){
 
-        $acknowledgment =   "<p>".get_post_meta($post_id, 'petition_email_signature', true )."</p>
-                            <p>Please, share with your friends this petition: 
-                                <a href='https://www.facebook.com/sharer/sharer.php?u=".get_permalink($post_id)."'>
-                                share with Facebook
-                                </a>  / 
-                                <a href='https://twitter.com/intent/tweet?text=".urlencode(get_the_title($post_id).':').'&url='.get_permalink($post_id).">
-                                    share with Twitter
-                                </a> 
-                            </p>";
+        $petition_url = get_permalink($post_id);
+        $acknowledgment_msg = get_post_meta($post_id, 'petition_email_signature', true );
+        $title = urlencode(get_post_meta($post_id, 'petition_form_share_title', true ).':');
 
-        return $acknowledgment;
+        return "<p>".$acknowledgment_msg."</p>
+                <p>Please, share with your friends this petition: 
+                    <a href='https://www.facebook.com/sharer/sharer.php?u=".$petition_url."'>share with Facebook</a>  / 
+                    <a href='https://twitter.com/intent/tweet?text=".$title.'&url='.$petition_url.">share with Twitter</a> 
+                </p>";
     }
           
 
