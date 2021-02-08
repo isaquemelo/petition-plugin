@@ -34,7 +34,7 @@
         
         $arr_post = get_posts($args);
 
-        /*if(sizeof($arr_post) >= 1) {
+        if(sizeof($arr_post) >= 1) {
             return -1;
         }
 
@@ -56,7 +56,7 @@
         if(!$response || !$response->success){
             wp_send_json_error('{"success":false,"data":{"hide":0,"error":1,"response":"Error: Captcha inválido."}}');
             exit;
-        }*/ 
+        }
         
 
         $post_metadatum = [
@@ -81,55 +81,65 @@
 
             if(get_post($child_id)) {
                 $subject = get_the_title($child_id) . " - Stop The Wall";
-                $message = email_signature($child_id);
+                $message = email_acknowledgment($child_id);
                 $intended_id = $child_id;
 
             } else {
                 $subject = get_the_title($petition_id) . " - Stop The Wall";
-                $message = email_signature($post_id);
+                $message = email_acknowledgment($post_id);
                 $intended_id = $petition_id;
             }
 
             // Send mail to user
             wp_mail( $to, $subject, $message );
-                        
+                 
             // Send mail to target
             if(!empty(get_post_meta($intended_id, 'petition_target_email', true ))) {
                 // Campo message customizavel
+              
                 $to = get_post_meta($intended_id, 'petition_target_email', true );
+              
                 $custom_subject = get_post_meta($petition_id, 'petition_target_subject', true );
+              
                 $subject = $custom_subject ? $custom_subject : "New sign in: ".get_the_title($petition_id);
                 
-                $message = "<p>".$post_metadatum['name']." from ".$post_metadatum['country']." signed.</p>
-                            <p>".get_post_meta($petition_id, 'petition_form_share_description', true ) ."</p>";
+                $message = target_email_body($intended_id, $post_metadatum);
                 
                 wp_mail( $to, $subject, $message );
                
             }
 
 
-            print_r( [ $subject, $message, $to, $email ]);
-            die;
         }
 
         return $post_id;
     }
 
-    function email_signature($post_id){
+    function target_email_body($post_id, $post_metadatum){
 
-        $default = "<p>Thank you for your signature!</p>
-                    <p>Please, share with your friends this petition: 
-                        <a href='https://www.facebook.com/sharer/sharer.php?u=".get_permalink($post_id)."'>
-                            share with Facebook
-                        </a>  / 
-                        <a href='https://twitter.com/intent/tweet?text=".urlencode(get_the_title($post_id).':').'&url='.get_permalink($post_id).">
-                            share with Twitter
-                        </a> 
-                    </p>";
+        $from = " ".get_post_meta($post_id, 'from_target_email', true )." ";
+        $signed = " ".get_post_meta($post_id, 'signed_target_email', true )." ";
+        $description = get_post_meta($post_id, 'petition_form_share_description', true );
+        $name = $post_metadatum['name'];
+        $country = $post_metadatum['country'];
 
-        $custom = get_post_meta($post_id, 'petition_email_signature', true );
+        return "<p>". $name . $from . $country . $signed . "</p> <p>".$description."</p>";
+    }
 
-        return $custom ? $custom : $default;
+
+    function email_acknowledgment($post_id){
+
+        $acknowledgment =   "<p>".get_post_meta($post_id, 'petition_email_signature', true )."</p>
+                            <p>Please, share with your friends this petition: 
+                                <a href='https://www.facebook.com/sharer/sharer.php?u=".get_permalink($post_id)."'>
+                                share with Facebook
+                                </a>  / 
+                                <a href='https://twitter.com/intent/tweet?text=".urlencode(get_the_title($post_id).':').'&url='.get_permalink($post_id).">
+                                    share with Twitter
+                                </a> 
+                            </p>";
+
+        return $acknowledgment;
     }
           
 
