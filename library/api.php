@@ -130,18 +130,12 @@
 
         $petition_url = get_permalink($post_id);
         $acknowledgment_msg = get_post_meta($post_id, 'petition_email_signature', true );
-       
-        if(get_post_meta($post_id, 'petition_form_share_title', true ))
-            $title = get_post_meta($post_id, 'petition_form_share_title', true );
-        else
-            $title = get_the_title($post_id);
-
-        $title = urlencode($title.':');
+        $description = urlencode(get_post_meta($post_id, 'petition_form_share_title', true ).':');
 
         return "<p>".$acknowledgment_msg."</p>
                 <p>Please, share with your friends this petition: 
-                    <a href='https://www.facebook.com/sharer/sharer.php?u=".$petition_url."'>share with Facebook</a>  / 
-                    <a href='https://twitter.com/intent/tweet?text=".$title.'&url='.$petition_url."'>share with Twitter</a> 
+                    <a href='https://www.facebook.com/sharer/sharer.php?u=".$petition_url."'&quote=".$description.">share with Facebook</a>  / 
+                    <a href='https://twitter.com/intent/tweet?text=".$description.'&url='.$petition_url."'>share with Twitter</a> 
                 </p>";
     }
           
