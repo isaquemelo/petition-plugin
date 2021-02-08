@@ -34,7 +34,7 @@
         
         $arr_post = get_posts($args);
 
-        if(sizeof($arr_post) >= 1) {
+        /*if(sizeof($arr_post) >= 1) {
             return -1;
         }
 
@@ -56,7 +56,7 @@
         if(!$response || !$response->success){
             wp_send_json_error('{"success":false,"data":{"hide":0,"error":1,"response":"Error: Captcha inválido."}}');
             exit;
-        }
+        }*/ 
         
 
         $post_metadatum = [
@@ -99,12 +99,17 @@
                 $to = get_post_meta($intended_id, 'petition_target_email', true );
                 $custom_subject = get_post_meta($petition_id, 'petition_target_subject', true );
                 $subject = $custom_subject ? $custom_subject : "New sign in: ".get_the_title($petition_id);
-                $message = "<p>".$post_metadatum['name']." from  signed.</p>
-                            <p>". get_the_content(null, false, $petition_id) ."</p>";
+                
+                $message = "<p>".$post_metadatum['name']." from ".$post_metadatum['country']." signed.</p>
+                            <p>".get_post_meta($petition_id, 'petition_form_share_description', true ) ."</p>";
+                
                 wp_mail( $to, $subject, $message );
                
             }
-            //print_r( [ $subject, $message, $to, $email ]);
+
+
+            print_r( [ $subject, $message, $to, $email ]);
+            die;
         }
 
         return $post_id;
