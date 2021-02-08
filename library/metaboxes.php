@@ -80,6 +80,13 @@ add_action('cmb2_admin_init', function () {
     ]);
 
     $cmb_petition_form->add_field([
+        'name' => 'Phone',
+        'id' => 'petition_form_phone',
+        'type' => 'text',
+        'default' => 'Phone'
+    ]);
+
+    $cmb_petition_form->add_field([
         'name' => 'Share title',
         'id' => 'petition_form_share_title',
         'type' => 'text',
@@ -214,6 +221,12 @@ add_action('cmb2_admin_init', function () {
     $cmb_signature->add_field([
         'name' => 'Name',
         'id' => 'name',
+        'type' => 'text',
+    ]);
+
+    $cmb_signature->add_field([
+        'name' => 'Phone',
+        'id' => 'phone',
         'type' => 'text',
     ]);
 

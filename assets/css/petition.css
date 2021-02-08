@@ -185,6 +185,7 @@
   display: none;
 }
 .single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form input[type=text],
+.single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form input[type=tel],
 .single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form input[type=email],
 .single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form select {
   width: 100%;
@@ -199,6 +200,7 @@
   margin-bottom: 8px;
 }
 .single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form input[type=text]::placeholder,
+.single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form input[type=tel]::placeholder,
 .single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form input[type=email]::placeholder,
 .single-petition .petition--content .content-wrapper .sidebar .petition-block .signatures-information .petition-form select::placeholder {
   color: grey;
