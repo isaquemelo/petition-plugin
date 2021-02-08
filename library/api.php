@@ -115,8 +115,8 @@
 
     function target_email_body($post_id, $post_metadatum){
 
-        $from = " ".get_post_meta($post_id, 'from_target_email', true )." ";
-        $signed = " ".get_post_meta($post_id, 'signed_target_email', true )." ";
+        $from = " ".get_post_meta($post_id, 'from_email_field', true )." ";
+        $signed = " ".get_post_meta($post_id, 'signed_email_field', true )." ";
         $description = get_post_meta($post_id, 'petition_form_share_description', true );
         $name = $post_metadatum['name'];
         $country = $post_metadatum['country'];
@@ -130,7 +130,13 @@
 
         $petition_url = get_permalink($post_id);
         $acknowledgment_msg = get_post_meta($post_id, 'petition_email_signature', true );
-        $title = urlencode(get_post_meta($post_id, 'petition_form_share_title', true ).':');
+       
+        if(get_post_meta($post_id, 'petition_form_share_title', true ))
+            $title = get_post_meta($post_id, 'petition_form_share_title', true );
+        else
+            $title = get_the_title($post_id);
+
+        $title = urlencode($title.':');
 
         return "<p>".$acknowledgment_msg."</p>
                 <p>Please, share with your friends this petition: 

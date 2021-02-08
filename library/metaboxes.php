@@ -84,7 +84,7 @@ add_action('cmb2_admin_init', function () {
 
 
     $cmb_petition_form->add_field([
-        'name' => 'Signatures',
+        'name' => 'Signatures petition\'s field',
         'id' => 'petition_form_signatures',
         'type' => 'text',
         'default' => 'Signatures'
@@ -95,6 +95,7 @@ add_action('cmb2_admin_init', function () {
         'id' => 'from_email_field',
         'type' => 'text',
         'default' => 'From'
+        'description' => '1st signer\'s email line: &lt;signature\'s name&gt; from &lt;country&gt; signed'
     ]);
 
     $cmb_petition_form->add_field([
@@ -102,6 +103,7 @@ add_action('cmb2_admin_init', function () {
         'id' => 'signed_email_field',
         'type' => 'text',
         'default' => 'Signed'
+        'description' => '1st signer\'s email line: &lt;signature\'s name&gt; from &lt;country&gt; signed'
     ]);
 
      $cmb_petition_form->add_field([
@@ -267,20 +269,6 @@ add_action('cmb2_admin_init', function () {
         'type' => 'title',
         'id'   => 'message_target_title'
     ));
-
-    $cmb_target_email->add_field([
-        'name' => 'From',
-        'id' => 'from_target_email',
-        'default' => 'From',
-        'type' => 'text',
-    ]);
-
-    $cmb_target_email->add_field([
-        'name' => 'Signed',
-        'id' => 'signed_target_email',
-        'default' => 'Signed this petition',
-        'type' => 'text',
-    ]);
 
     $cmb_target_email->add_field([
         'name' => 'Message body',

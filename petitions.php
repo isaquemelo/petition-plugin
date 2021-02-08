@@ -42,6 +42,13 @@ function count_signatures($petition_id) {
 }
 
 
+function set_wp_mail_content_type(){
+    return "text/html";
+}
+
+add_filter( 'wp_mail_content_type','set_wp_mail_content_type' );
+
+
 function get_languages($petition_id) {
 	global $wpdb;
 	$results = $wpdb->get_results("SELECT post_id FROM {$wpdb->prefix}postmeta WHERE meta_key = 'petition_parent' and meta_value = '{$petition_id}'", OBJECT);
