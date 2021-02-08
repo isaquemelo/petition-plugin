@@ -94,7 +94,7 @@ add_action('cmb2_admin_init', function () {
         'name' => 'From',
         'id' => 'from_email_field',
         'type' => 'text',
-        'default' => 'From'
+        'default' => 'From',
         'description' => '1st signer\'s email line: &lt;signature\'s name&gt; from &lt;country&gt; signed'
     ]);
 
@@ -102,7 +102,7 @@ add_action('cmb2_admin_init', function () {
         'name' => 'Signed',
         'id' => 'signed_email_field',
         'type' => 'text',
-        'default' => 'Signed'
+        'default' => 'Signed',
         'description' => '1st signer\'s email line: &lt;signature\'s name&gt; from &lt;country&gt; signed'
     ]);
 
@@ -262,13 +262,6 @@ add_action('cmb2_admin_init', function () {
         'description' => 'Leave it empty if you don\'t want to give a custom target\'s subject. By default, this field is the pettiton\'s name',
         'type' => 'text',
     ]);
-
-    $cmb_target_email->add_field( array(
-        'name' => 'Message',
-        'description' => '1st line: &lt;signature\'s name&gt; from &lt;country&gt; signed',
-        'type' => 'title',
-        'id'   => 'message_target_title'
-    ));
 
     $cmb_target_email->add_field([
         'name' => 'Message body',

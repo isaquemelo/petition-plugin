@@ -141,7 +141,7 @@
         return "<p>".$acknowledgment_msg."</p>
                 <p>Please, share with your friends this petition: 
                     <a href='https://www.facebook.com/sharer/sharer.php?u=".$petition_url."'>share with Facebook</a>  / 
-                    <a href='https://twitter.com/intent/tweet?text=".$title.'&url='.$petition_url.">share with Twitter</a> 
+                    <a href='https://twitter.com/intent/tweet?text=".$title.'&url='.$petition_url."'>share with Twitter</a> 
                 </p>";
     }
           
