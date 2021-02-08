@@ -9,6 +9,7 @@ add_action('cmb2_admin_init', function () {
         'priority' => 'high',
     ]);
 
+
     $cmb_petition_page->add_field([
         'name' => 'Select a parent petition',
         'description' => 'The count will be sent to the parent',
@@ -19,19 +20,6 @@ add_action('cmb2_admin_init', function () {
         'select_behavior' => 'replace',
     ]);
 
-    $cmb_petition_page->add_field([
-        'name' => 'Target e-mail',
-        'description' => 'Leave it empty if you don\'t  want to send an e-mail to a target',
-        'id' => 'petition_target_email',
-        'type' => 'text',
-    ]);
-
-    $cmb_petition_page->add_field([
-        'name' => 'Target Subject',
-        'description' => 'Leave it empty if you don\'t  want to give a custom name to the target\'s email.',
-        'id' => 'petition_target_subject',
-        'type' => 'text',
-    ]);
 
     $cmb_petition_page->add_field([
         'name' => 'Goal',
@@ -57,13 +45,6 @@ add_action('cmb2_admin_init', function () {
         'default' => true,
     ]);
 
-    $cmb_petition_page->add_field([
-        'name' => 'E-mail after signature',
-        'id' => 'petition_email_signature',
-        'type' => 'textarea',
-        'default' => 'Thank you for your signature!',
-        'sanitization_cb' => 'petition_terms_text_callback', // function should return a sanitized value
-    ]);
 
     $cmb_petition_page->add_field([
         'name' => 'Goal reached message',
@@ -92,6 +73,28 @@ add_action('cmb2_admin_init', function () {
         'type' => 'text',
         'default' => 'Signatures'
     ]);
+
+    $cmb_petition_form->add_field([
+        'name' => 'From',
+        'id' => 'from_email_field',
+        'type' => 'text',
+        'default' => 'From'
+    ]);
+
+    $cmb_petition_form->add_field([
+        'name' => 'Signed',
+        'id' => 'signed_email_field',
+        'type' => 'text',
+        'default' => 'Signed'
+    ]);
+
+     $cmb_petition_form->add_field([
+        'name' => 'Thank you signer email',
+        'id' => 'thanks_email_field',
+        'type' => 'text',
+        'default' => 'Thank you for your signature! Please, share this petition with your friends:',
+    ]);
+
 
     $cmb_petition_form->add_field([
         'name' => 'The goal',
@@ -220,6 +223,92 @@ add_action('cmb2_admin_init', function () {
         'id' => 'keep_me_updated',
         'type' => 'checkbox',
     ]);
+
+    // Emails details for target fields
+    $cmb_target_email = new_cmb2_box([
+        'id' => 'target_email_config',
+        'title' => 'Email configuration for target',
+        'object_types' => ['petition'],
+    ]);
+
+    $cmb_target_email->add_field([
+        'name' => 'Target e-mail',
+        'id' => 'petition_id',
+        'description' => 'Leave it empty if you don\'t want to send an e-mail to a target',
+        'type' => 'text',
+    ]);
+
+    $cmb_target_email->add_field([
+        'name' => 'Subject e-mail',
+        'id' => 'subject_target_email_id',
+        'description' => 'Leave it empty if you don\'t want to give a custom target\'s subject. By default, this field is the pettiton\'s name',
+        'type' => 'text',
+    ]);
+
+    $cmb_target_email->add_field( array(
+        'name' => 'Message',
+        'description' => '1st line: &lt;signature\'s name&gt; from &lt;country&gt; signed',
+        'type' => 'title',
+        'id'   => 'message_target_title'
+    ));
+
+    $cmb_target_email->add_field([
+        'name' => 'From',
+        'id' => 'from_target_email_id',
+        'default' => 'From',
+        'type' => 'text',
+    ]);
+
+    $cmb_target_email->add_field([
+        'name' => 'Signed',
+        'id' => 'signed_target_email_id',
+        'default' => 'Signed this petition',
+        'type' => 'text',
+    ]);
+
+    $cmb_target_email->add_field([
+        'name' => 'Message body',
+        'id' => 'message_target_email_id',
+        'default' => 'Signed this petition',
+        'type' => 'textarea',
+    ]);
+
+
+    // Emails details for signer
+    $cmb_signer_email = new_cmb2_box([
+        'id' => 'signer_email_config',
+        'title' => 'Email configuration for signer',
+        'object_types' => ['petition'],
+    ]);
+
+    $cmb_signer_email->add_field([
+        'name' => 'Target e-mail',
+        'id' => 'petition_id',
+        'description' => 'Leave it empty if you don\'t want to send an e-mail to a target',
+        'type' => 'text',
+    ]);
+
+    $cmb_signer_email->add_field([
+        'name' => 'Subject',
+        'id'   => 'subject_signer_email_id',
+        'description' => 'The petition\'s name',
+        'type' => 'title',
+    ]);
+
+
+    $cmb_signer_email->add_field([
+        'name' => 'Message',
+        'id'   => 'signer_email_message_label_id',
+        'type' => 'title',
+    ]);
+
+     $cmb_signer_email->add_field([
+        'name' => 'Thank you message',
+        'id'   => 'signer_email_message_id',
+        'type' => 'textarea',
+        'default' => 'Thank you for your signature! Please, share this petition with your friends:',
+    ]);
+
 });
 
 function petition_terms_text_callback($value) {
