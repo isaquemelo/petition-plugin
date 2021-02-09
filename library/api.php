@@ -62,7 +62,6 @@
             exit;
         }
         
-
         $post_metadatum = [
             'petition_id' => $petition_id,
             'email' => $email,
@@ -94,7 +93,6 @@
                 $intended_id = $petition_id;
             }
 
-
             // Send mail to user
             wp_mail( $to, $subject, $message );
                  
@@ -103,15 +101,16 @@
                 // Campo message customizavel
               
                 $to = get_post_meta($intended_id, 'petition_target_email', true );
+
+                $custom_subject = get_post_meta($intended_id, 'petition_target_subject', true );
               
-                $custom_subject = get_post_meta($petition_id, 'petition_target_subject', true );
-              
-                $subject = $custom_subject ? $custom_subject : "New sign in: ".get_the_title($petition_id);
-                
+                $subject = $custom_subject ? $custom_subject : "New sign in: ".get_the_title($intended_id);
+
                 $message = target_email_body($intended_id, $post_metadatum);
                 
                 wp_mail( $to, $subject, $message );
             }
+           
             //print_r([$to, $subject, $message]);
         }
 
