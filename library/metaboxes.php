@@ -1,6 +1,10 @@
 <?php
 
+//var_dump($country_array);
+
 add_action('cmb2_admin_init', function () {
+    include __DIR__ . '/countries.php';
+
 
     $cmb_petition_page = new_cmb2_box([
         'id' => 'petition_page_metabox',
@@ -25,6 +29,16 @@ add_action('cmb2_admin_init', function () {
         'id' => 'petition_target_email',
         'type' => 'text',
     ]);
+
+    $cmb_petition_page->add_field( array(
+        'name'             => 'Default selected country',
+        // 'desc'             => 'Select an option',
+        'id'               => 'petition_default_country',
+        'type'             => 'select',
+        'show_option_none' => true,
+        // 'default'          => 'custom',
+        'options'          => $country_array,
+    ) );
 
     $cmb_petition_page->add_field([
         'name' => 'Goal',
