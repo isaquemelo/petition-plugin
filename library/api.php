@@ -1,4 +1,7 @@
 <?php 
+    
+    include __DIR__ . '/email-content.php';
+
     function sign_petition($params) {
         $petition_id = $params['petition_id'];
         $child_id = $params['child_id'];
@@ -32,6 +35,7 @@
             ]
         ];
 
+        
         $arr_post = get_posts($args);
 
         if(sizeof($arr_post) >= 1) {
@@ -48,16 +52,17 @@
         $reCaptcha = new \ReCaptcha($secret);
         $capcha_response = $gcaptcha;
     
+        
         $response = $reCaptcha->verifyResponse(
             isset($_SERVER['HTTP_X_REAL_IP']) ? $_SERVER['HTTP_X_REAL_IP'] : $_SERVER['REMOTE_ADDR'],
             $capcha_response
         );
-    
+        
         if(!$response || !$response->success){
             wp_send_json_error('{"success":false,"data":{"hide":0,"error":1,"response":"Error: Captcha inválido."}}');
             exit;
         }
-
+        
         $post_metadatum = [
             'petition_id' => $petition_id,
             'email' => $email,
@@ -74,35 +79,41 @@
         ];
 
         $post_id = wp_insert_post( $post_args, false );
-        
+
         if($post_id) {
             $to = $email;
             $intended_id = false;
 
             if(get_post($child_id)) {
                 $subject = get_the_title($child_id) . " - Stop The Wall";
-                $message = get_post_meta($child_id, 'petition_email_signature', true );
+                $message = signer_email_acknowledgment($child_id);
                 $intended_id = $child_id;
 
             } else {
                 $subject = get_the_title($petition_id) . " - Stop The Wall";
-                $message = get_post_meta($post_id, 'petition_email_signature', true );
+                $message = signer_email_acknowledgment($petition_id);
                 $intended_id = $petition_id;
             }
 
             // Send mail to user
             wp_mail( $to, $subject, $message );
-                        
+                 
             // Send mail to target
             if(!empty(get_post_meta($intended_id, 'petition_target_email', true ))) {
                 // Campo message customizavel
+              
                 $to = get_post_meta($intended_id, 'petition_target_email', true );
-                $subject = "A new sign was made";
-                $message = "$name($email) from $country, signed petition";
+
+                $custom_subject = get_post_meta($intended_id, 'petition_target_subject', true );
+              
+                $subject = $custom_subject ? $custom_subject : "New sign in: ".get_the_title($intended_id);
+
+                $message = target_email_body($intended_id, $post_metadatum);
+                
                 wp_mail( $to, $subject, $message );
             }
-
-            // print_r( [ $subject, $message, $to, $email ]);
+           
+            //print_r([$to, $subject, $message]);
         }
 
         return $post_id;
