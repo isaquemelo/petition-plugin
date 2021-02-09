@@ -16,6 +16,7 @@ if(empty($goal)) {
     $goal = false;
 }
 
+include include __DIR__ . '/../library/utils.php';
 
 ?>
 
@@ -474,26 +475,21 @@ if(empty($goal)) {
                                 <div class="share-petition--content">
                                     <?= $description ?>
                                 </div>
-
                                 <?php 
-                                    $text = wp_strip_all_tags($description);
-                                    $permalink = get_permalink( $child_id );
 
-                                    $max_length = 280 - strlen($permalink);
+                                $icons = [
+                                          'facebook'=>'<i class="fab fa-facebook-f"></i>', 
+                                          'twitter'=>'<i class="fab fa-twitter"></i>'
+                                        ]; 
 
-                                    if (strlen($text) > $max_length){
-                                        $offset = ($max_length - 3) - strlen($text);
-                                        $text = substr($text, 0, strrpos($text, ' ', $offset)) . '...';
-                                    }
+                                $share = share_links($description, $child_id, $icons); ?>
                                 
-                                ?>
-
                                 <div class="share-petition--networks">
                                     <div class="facebook">
-                                        <a href="https://www.facebook.com/sharer/sharer.php?u=<?= $permalink ?>&quote=<?= urlencode($text) ?>" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                        <?= $share['facebook'] ?>
                                     </div>
                                     <div class="twitter">
-                                        <a href="https://twitter.com/intent/tweet?text=<?= urlencode($text) ?>&url=<?= $permalink ?>" target="_blank"><i class="fab fa-twitter"></i></a>
+                                       <?= $share['twitter'] ?>
                                     </div>
                                 </div>
                             </div>
