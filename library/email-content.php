@@ -37,12 +37,11 @@ function target_email_body($post_id, $post_metadatum){
 }
 
 function signer_email_acknowledgment($post_id){
-    $petition_url = urlencode(get_permalink($post_id));
     $acknowledgment_msg = get_post_meta($post_id, 'signer_email_message', true );
-    $description = urlencode(strip_tags(get_post_meta($post_id, 'petition_form_share_description', true ).':'));
+    $description = get_post_meta($post_id, 'petition_form_share_description', true ).':';
 
     $content_link =  ['facebook'=>'share with Facebook', 'twitter'=>'share with Twitter']; 
-    $share = share_links($description, $child_id, $content_link); 
+    $share = share_links($description, $post_id, $content_link); 
 
     $contents[0] = $acknowledgment_msg;
     $contents[1] = "Please, share with your friends this petition: ".$share['facebook']." / ".$share['twitter'];

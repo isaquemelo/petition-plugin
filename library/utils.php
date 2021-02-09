@@ -14,7 +14,7 @@
 	}
 
 
-	function share_links($text, $post_id){
+	function share_links($text, $post_id, $content=[]){
         $permalink = get_permalink($post_id);
 		$text = excerpt($text, $permalink);
 		
