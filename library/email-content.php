@@ -44,7 +44,7 @@ function signer_email_acknowledgment($post_id){
     $share = share_links($description, $post_id, $content_link); 
 
     $contents[0] = $acknowledgment_msg;
-    $contents[1] = "Please, share with your friends this petition: ".$share['facebook']." / ".$share['twitter'];
+    $contents[1] = $share['facebook']." / ".$share['twitter'];
 
     return set_template_message($contents);
 }

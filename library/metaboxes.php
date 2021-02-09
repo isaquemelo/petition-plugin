@@ -106,14 +106,6 @@ add_action('cmb2_admin_init', function () {
         'description' => '1st signer\'s email line: &lt;signature\'s name&gt; from &lt;country&gt; signed'
     ]);
 
-     $cmb_petition_form->add_field([
-        'name' => 'Thank you signer email',
-        'id' => 'thanks_email_field',
-        'type' => 'text',
-        'default' => 'Thank you for your signature! Please, share this petition with your friends:',
-    ]);
-
-
     $cmb_petition_form->add_field([
         'name' => 'The goal',
         'id' => 'petition_form_goal',
@@ -122,7 +114,6 @@ add_action('cmb2_admin_init', function () {
         // 'render_row_cb' => 'cmb_goal_row_cb',
 
     ]);
-
 
     $cmb_petition_form->add_field([
         'name' => 'Recently submission',
