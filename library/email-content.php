@@ -40,7 +40,7 @@ function signer_email_acknowledgment($post_id){
     $acknowledgment_msg = get_post_meta($post_id, 'signer_email_message', true );
     $description = get_post_meta($post_id, 'petition_form_share_description', true ).':';
 
-    $content_link =  ['facebook'=>'share with Facebook', 'twitter'=>'share with Twitter']; 
+    $content_link =  ['facebook'=>'Facebook', 'twitter'=>'Twitter']; 
     $share = share_links($description, $post_id, $content_link); 
 
     $contents[0] = $acknowledgment_msg;
