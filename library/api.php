@@ -1,4 +1,7 @@
 <?php 
+    
+    include __DIR__ . '/email-content.php';
+
     function sign_petition($params) {
         $petition_id = $params['petition_id'];
         $child_id = $params['child_id'];
@@ -53,6 +56,7 @@
             isset($_SERVER['HTTP_X_REAL_IP']) ? $_SERVER['HTTP_X_REAL_IP'] : $_SERVER['REMOTE_ADDR'],
             $capcha_response
         );
+        
         if(!$response || !$response->success){
             wp_send_json_error('{"success":false,"data":{"hide":0,"error":1,"response":"Error: Captcha inválido."}}');
             exit;
@@ -86,9 +90,10 @@
 
             } else {
                 $subject = get_the_title($petition_id) . " - Stop The Wall";
-                $message = signer_email_acknowledgment($post_id);
+                $message = signer_email_acknowledgment($petition_id);
                 $intended_id = $petition_id;
             }
+
 
             // Send mail to user
             wp_mail( $to, $subject, $message );
@@ -106,39 +111,12 @@
                 $message = target_email_body($intended_id, $post_metadatum);
                 
                 wp_mail( $to, $subject, $message );
-               
             }
+            //print_r([$to, $subject, $message]);
         }
 
         return $post_id;
     }
-
-    function target_email_body($post_id, $post_metadatum){
-
-        $from = " ".get_post_meta($post_id, 'from_email_field', true )." ";
-        $signed = " ".get_post_meta($post_id, 'signed_email_field', true )." ";
-        $description = get_post_meta($post_id, 'petition_form_share_description', true );
-        $name = $post_metadatum['name'];
-        $country = $post_metadatum['country'];
-
-        return "<p>". $name . $from . $country . $signed . "</p> 
-                <p>".$description."</p>";
-    }
-
-
-    function signer_email_acknowledgment($post_id){
-
-        $petition_url = get_permalink($post_id);
-        $acknowledgment_msg = get_post_meta($post_id, 'petition_email_signature', true );
-        $description = urlencode(get_post_meta($post_id, 'petition_form_share_title', true ).':');
-
-        return "<p>".$acknowledgment_msg."</p>
-                <p>Please, share with your friends this petition: 
-                    <a href='https://www.facebook.com/sharer/sharer.php?u=".$petition_url."'&quote=".$description.">share with Facebook</a>  / 
-                    <a href='https://twitter.com/intent/tweet?text=".$description.'&url='.$petition_url."'>share with Twitter</a> 
-                </p>";
-    }
-          
 
     add_action( 'rest_api_init', function () {
         register_rest_route( 'petition', '/sign', array(

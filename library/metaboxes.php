@@ -279,19 +279,11 @@ add_action('cmb2_admin_init', function () {
     ]);
 
     $cmb_signer_email->add_field([
-        'name' => 'Target e-mail',
-        'id' => 'petition',
-        'description' => 'Leave it empty if you don\'t want to send an e-mail to a target',
-        'type' => 'text',
-    ]);
-
-    $cmb_signer_email->add_field([
         'name' => 'Subject',
         'id'   => 'subject_signer_email',
         'description' => 'The petition\'s name',
         'type' => 'title',
     ]);
-
 
     $cmb_signer_email->add_field([
         'name' => 'Message',
