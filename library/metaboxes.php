@@ -247,6 +247,7 @@ add_action('cmb2_admin_init', function () {
         'id' => 'target_email_config',
         'title' => 'Email configuration for target',
         'object_types' => ['petition'],
+        'priority' => 'high'
     ]);
 
     $cmb_target_email->add_field([
@@ -276,6 +277,7 @@ add_action('cmb2_admin_init', function () {
         'id' => 'signer_email_config',
         'title' => 'Email configuration for signer',
         'object_types' => ['petition'],
+        'priority' => 'high'
     ]);
 
     $cmb_signer_email->add_field([

@@ -20,8 +20,8 @@
    
 
    function target_email_body($post_id, $post_metadatum){
-        $from = " ".get_post_meta($post_id, 'from_email_field', true )." ";
-        $signed = " ".get_post_meta($post_id, 'signed_email_field', true )." ";
+        $from = " ".strtolower(get_post_meta($post_id, 'from_email_field', true ))." ";
+        $signed = " ".strtolower(get_post_meta($post_id, 'signed_email_field', true ))." ";
         $description = get_post_meta($post_id, 'petition_form_share_description', true );
         $name = $post_metadatum['name'];
         $country = $post_metadatum['country'];
@@ -34,9 +34,9 @@
 
     function signer_email_acknowledgment($post_id){
         $petition_url = get_permalink($post_id);
-        $acknowledgment_msg = get_post_meta($post_id, 'petition_email_signature', true );
-        $description = urlencode(get_post_meta($post_id, 'petition_form_share_title', true ).':');
-        
+        $acknowledgment_msg = get_post_meta($post_id, 'signer_email_message', true );
+        $description = urlencode(get_post_meta($post_id, 'petition_form_share_description', true ).':');
+
         $share_fb = "<a href='https://www.facebook.com/sharer/sharer.php?u=".$petition_url."'&quote=".$description."'>
                         share with Facebook
                     </a>"; 
@@ -45,7 +45,7 @@
                         share with Twitter
                     </a>";
 
-        $contents[0] = "Thank you for your signature!";
+        $contents[0] = $acknowledgment_msg;
         $contents[1] = "Please, share with your friends this petition:".$share_fb." / ".$share_tt;
 
         return set_template_message($contents);
