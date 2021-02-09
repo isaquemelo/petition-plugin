@@ -4,6 +4,7 @@
         $child_id = $params['child_id'];
         $name = $params['name'];
         $email = $params['email'];
+        $phone = $params['phone'];
         $country = $params['country'];
         $keep_me_updated = $params['keep_me_updated'];
         $gcaptcha = $params['g-recaptcha-response'];
@@ -60,6 +61,7 @@
         $post_metadatum = [
             'petition_id' => $petition_id,
             'email' => $email,
+            'phone' => $phone,
             'name' => $name,
             'country' => $country,
             'keep_me_updated' => $keep_me_updated,

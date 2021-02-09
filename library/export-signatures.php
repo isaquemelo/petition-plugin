@@ -48,11 +48,12 @@ function func_export_all_posts() {
             $file = fopen('php://output', 'w');
   
             // fputcsv($file, array('Post Title', 'URL', 'Categories', 'Tags'));
-            fputcsv($file, array('Name', 'Email', 'Country', 'Keep me updated', 'Petition', 'Date'));
+            fputcsv($file, array('Name', 'Email', 'Phone', 'Country', 'Keep me updated', 'Petition', 'Date'));
   
             foreach ($arr_post as $post) {
                 setup_postdata($post);
                 $name = get_post_meta(get_the_ID(), 'name', true);
+                $phone = get_post_meta(get_the_ID(), 'phone', true);
                 $email = get_post_meta(get_the_ID(), 'email', true);
                 $country = get_post_meta(get_the_ID(), 'country', true);
                 $keep_me_updated = get_post_meta(get_the_ID(), 'keep_me_updated', true); 
@@ -66,7 +67,7 @@ function func_export_all_posts() {
                     $keep_me_updated = "No";
                 }
 
-                fputcsv($file, array($name, $email, $country, $keep_me_updated, $petition, $date));
+                fputcsv($file, array($name, $email, $phone, $country, $keep_me_updated, $petition, $date));
             }
   
             exit();
