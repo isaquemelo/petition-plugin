@@ -23,12 +23,14 @@
         $from = " ".strtolower(get_post_meta($post_id, 'from_email_field', true ))." ";
         $signed = " ".strtolower(get_post_meta($post_id, 'signed_email_field', true ))." ";
         $description = get_post_meta($post_id, 'petition_form_share_description', true );
+        $custom_message = get_post_meta($post_id, 'message_target_email', true );
+        
         $name = $post_metadatum['name'];
         $country = $post_metadatum['country'];
 
         $contents[0] = $name . $from . $country . $signed;
-        $contents[1] = $description;
-
+        $contents[1] = $custom_message ? $custom_message : $description;
+        
         return set_template_message($contents);
     }
 

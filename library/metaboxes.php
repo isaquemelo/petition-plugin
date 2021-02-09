@@ -267,8 +267,8 @@ add_action('cmb2_admin_init', function () {
     $cmb_target_email->add_field([
         'name' => 'Message body',
         'id' => 'message_target_email',
-        'default' => 'Signed this petition',
         'type' => 'textarea',
+        'description' => 'Leave it empty if you don\'t want to give a custom message. By default, this field is the share description field.'
     ]);
 
 
