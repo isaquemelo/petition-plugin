@@ -107,7 +107,6 @@ function signatures_post_type() {
 		// 'capability_type'       => 'page',
 	);
 	register_post_type( 'signature', $args );
-	remove_post_type_support('signature', 'title');
 	remove_post_type_support('signature', 'editor');
 }
 
