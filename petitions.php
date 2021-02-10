@@ -41,13 +41,11 @@ function count_signatures($petition_id) {
 	}
 }
 
-
 function set_wp_mail_content_type(){
     return "text/html";
 }
 
 add_filter( 'wp_mail_content_type','set_wp_mail_content_type' );
-
 
 function get_languages($petition_id) {
 	global $wpdb;
