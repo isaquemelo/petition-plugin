@@ -433,7 +433,7 @@ if(empty($goal)) {
                                         </div>
 
                                         <div>
-                                            <input type="checkbox" id="show-signature" name="show-signature" required>
+                                            <input type="checkbox" id="show-signature" name="show_signature">
                                             <label for="show-signature">
                                                 <?= get_post_meta(get_the_ID(), 'show_signature', true ) ?>
                                             </label>

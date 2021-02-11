@@ -9,8 +9,9 @@
         $email = $params['email'];
         $phone = $params['phone'];
         $country = $params['country'];
-        $keep_me_updated = $params['keep_me_updated'];
+        $keep_me_updated = $params['show_signature'];
         $gcaptcha = $params['g-recaptcha-response'];
+        $show_signature = $params['g-recaptcha-response'];
 
         // Chek if there's a signature already
         $args = [
@@ -70,6 +71,7 @@
             'name' => $name,
             'country' => $country,
             'keep_me_updated' => $keep_me_updated,
+            'show_signature'=> $show_signature
         ];
 
         $post_args = [
