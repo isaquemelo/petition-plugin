@@ -60,6 +60,19 @@ if ( isset($_GET['action'] ) && $_GET['action'] == 'download_csv' )  {
 	add_action( 'admin_init', 'csv_export' );
 }
 
+add_action( 'init', 'update_signature_with_no_title' );
+
+function update_signature_with_no_title(){
+    global $wpdb;
+    $results = $wpdb->get_results("SELECT ID FROM {$wpdb->prefix}posts 
+        WHERE post_title = '' AND post_type = 'signature'", OBJECT);
+   
+    foreach ($results as $post) {
+        $name = get_post_meta($post->ID, 'name', true);
+        wp_update_post(['ID' => $post->ID, 'post_title' => $name]);
+    }
+}
+
 function csv_export() {
     // Check for current user privileges 
     // if( !current_user_can( 'manage_options' ) ){ return false; }

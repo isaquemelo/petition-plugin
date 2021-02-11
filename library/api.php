@@ -76,6 +76,7 @@
         ];
 
         $post_args = [
+            'post_title' => $name,
             'post_type' => 'signature',
             'post_status' => 'publish',
             'meta_input' => $post_metadatum,

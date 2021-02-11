@@ -25,6 +25,17 @@ add_action('cmb2_admin_init', function () {
     ]);
 
 
+    $cmb_petition_page->add_field([
+        'name' => 'Pin signatures',
+        'description' => 'Select a group of fixed signatures to pin in petition\'s page',
+        'id' => 'highlight_signatures',
+        'type' => 'post_search_text',
+        'post_type'   => 'signature',
+        'select_type' => 'checkbox',
+        'select_behavior' => 'replace',
+    ]);
+
+
     $cmb_petition_page->add_field( array(
         'name'             => 'Default selected country',
         // 'desc'             => 'Select an option',
