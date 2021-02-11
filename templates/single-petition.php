@@ -114,12 +114,18 @@ if(empty($goal)) {
                             <div class="signatures-history" data-signature-text="<?= get_post_meta($child_id, 'petition_form_submission', true) ?>">
                                 <?php 
                                     // The Query
-                                    $the_query = new WP_Query( [
+                                     $the_query = new WP_Query( [
                                         'post_type' => 'signature', 
                                         'meta_query' => [
+                                            'relation' => 'AND',
                                             [
                                                 'key' => 'petition_id',
                                                 'value' => $petition_id,
+                                                'compare' => '='
+                                            ],
+                                            [
+                                                'key' => 'show_signature',
+                                                'value' => true,
                                                 'compare' => '='
                                             ]
                                         ],

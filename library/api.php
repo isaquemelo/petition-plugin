@@ -3,15 +3,16 @@
     include __DIR__ . '/email-content.php';
 
     function sign_petition($params) {
+      
         $petition_id = $params['petition_id'];
         $child_id = $params['child_id'];
         $name = $params['name'];
         $email = $params['email'];
         $phone = $params['phone'];
         $country = $params['country'];
-        $keep_me_updated = $params['show_signature'];
+        $keep_me_updated = $params['keep_me_updated'];
         $gcaptcha = $params['g-recaptcha-response'];
-        $show_signature = $params['g-recaptcha-response'];
+        $show_signature = $params['show_signature'];
 
         // Chek if there's a signature already
         $args = [
@@ -37,7 +38,7 @@
         ];
 
         
-        $arr_post = get_posts($args);
+        /*$arr_post = get_posts($args);
 
         if(sizeof($arr_post) >= 1) {
             return -1;
@@ -62,7 +63,7 @@
         if(!$response || !$response->success){
             wp_send_json_error('{"success":false,"data":{"hide":0,"error":1,"response":"Error: Captcha inválido."}}');
             exit;
-        }
+        }*/
         
         $post_metadatum = [
             'petition_id' => $petition_id,
