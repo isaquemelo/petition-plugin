@@ -197,7 +197,7 @@ add_action('cmb2_admin_init', function () {
         'name' => 'Show signature on public list',
         'id' => 'show_signature',
         'type' => 'text',
-        'default' => 'I accept show my signature in public'
+        'default' => 'Show my signature publicly'
     ]);
 
     $cmb_petition_form->add_field([
