@@ -1,5 +1,6 @@
 <?php 
 include __DIR__ . '/../library/countries.php';
+include __DIR__ . '/../library/utils.php';
 
 get_header('single');
 the_post();
@@ -18,7 +19,6 @@ if(empty($goal)) {
     $goal = false;
 }
 
-include include __DIR__ . '/../library/utils.php';
 
 ?>
 
@@ -113,22 +113,31 @@ include include __DIR__ . '/../library/utils.php';
                             <div class="signatures-history" data-signature-text="<?= get_post_meta($child_id, 'petition_form_submission', true) ?>">
                                 <?php 
                                     // The Query
-                                    $the_query = new WP_Query( [
-                                        'post_type' => 'signature', 
+
+                                    $highlight_ids = get_post_meta(get_the_ID(), 'highlight_signatures', true);
+                                    $highlight_ids = array_map('intval', explode(",", $highlight_ids));
+                                    $highlights = new WP_Query(['post__in' => $highlight_ids, 'post_type' => 'signature']);
+                                    
+                                    $common_signatures = new WP_Query( [
+                                        'post_type' => 'signature',
                                         'meta_query' => [
                                             [
                                                 'key' => 'petition_id',
                                                 'value' => $petition_id,
                                                 'compare' => '='
-                                            ]
+                                            ],
                                         ],
                                         'posts_per_page' => get_post_meta($child_id, 'petition_signatures_shown', true)
                                     ] );
+
+                                    $signatures = new WP_Query();
+                                    $signatures->posts = array_merge( $highlights->posts, $common_signatures->posts );
+                                    $signatures->post_count = $highlights->post_count + $common_signatures->post_count;
                                     
                                     // The Loop
-                                    if ( $the_query->have_posts() &&  get_post_meta($child_id, 'petition_signatures_shown', true) !== '0') {
-                                        while ( $the_query->have_posts() ) {
-                                            $the_query->the_post(); ?>
+                                    if ( $signatures->have_posts() &&  get_post_meta($child_id, 'petition_signatures_shown', true) !== '0') {
+                                        while ( $signatures->have_posts() ) {
+                                            $signatures->the_post(); ?>
                                             <div class="user-signature">
                                                 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="svg-inline--fa fa-user fa-w-14 fa-3x"><path fill="currentColor" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z" class=""></path></svg>
                                                 <?= (get_post_meta(get_the_ID(), 'name', true) . " ". get_post_meta($child_id, 'petition_form_submission', true)); ?>
