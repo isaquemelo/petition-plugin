@@ -14,8 +14,11 @@ function set_template_message($contents){
 
     $template  = str_replace($search, $replace, $template);
 
-    foreach ($contents as $key => $content)
-        $template  = str_replace('#content'.$key, $content, $template);
+    foreach ($contents as $key => $content){
+        $search = ['#content'.$key, '#align'.$key];
+        $replace = [$content['content'], $content['align']];
+        $template  = str_replace($search, $replace, $template);
+    }
 
     return $template;
 }
@@ -30,8 +33,11 @@ function target_email_body($post_id, $post_metadatum){
     $name = $post_metadatum['name'];
     $country = $post_metadatum['country'];
 
-    $contents[0] = $name . $from . $country . $signed;
-    $contents[1] = $custom_message ? $custom_message : $description;
+    $contents[0]['content'] = $name . $from . $country . $signed;
+    $contents[0]['align'] = 'center';
+
+    $contents[1]['content'] = $custom_message ? $custom_message : $description;
+    $contents[1]['align'] = 'left';
     
     return set_template_message($contents);
 }
@@ -40,11 +46,14 @@ function signer_email_acknowledgment($post_id){
     $acknowledgment_msg = get_post_meta($post_id, 'signer_email_message', true );
     $description = get_post_meta($post_id, 'petition_form_share_description', true ).':';
 
-    $content_link =  ['facebook'=>'Facebook', 'twitter'=>'Twitter']; 
+    $content_link =  ['facebook' => 'Facebook', 'twitter' => 'Twitter']; 
     $share = share_links($description, $post_id, $content_link); 
 
-    $contents[0] = $acknowledgment_msg;
-    $contents[1] = $share['facebook']." / ".$share['twitter'];
+    $contents[0]['content'] = $acknowledgment_msg;
+    $contents[0]['align'] = 'center';
+    
+    $contents[1]['content'] = $share['facebook']." / ".$share['twitter'];
+    $contents[1]['align'] = 'center';
 
     return set_template_message($contents);
 }

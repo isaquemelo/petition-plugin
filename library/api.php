@@ -116,8 +116,8 @@
                 
                 wp_mail( $to, $subject, $message );
             }
-           
             //print_r([$to, $subject, $message]);
+           
         }
 
         return $post_id;
