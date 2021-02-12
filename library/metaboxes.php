@@ -205,6 +205,13 @@ add_action('cmb2_admin_init', function () {
     ]);
 
     $cmb_petition_form->add_field([
+        'name' => 'Show signature on public list',
+        'id' => 'show_signature',
+        'type' => 'text',
+        'default' => 'Show my signature publicly'
+    ]);
+
+    $cmb_petition_form->add_field([
         'name' => 'Submit button',
         'id' => 'petition_submit_text',
         'type' => 'text',
@@ -338,7 +345,7 @@ function petition_terms_text_callback($value) {
      * http://php.net/manual/en/function.strip-tags.php
      */
     $value = strip_tags($value, '<p><a><br><br/>');
-
+    
     return $value;
 }
 

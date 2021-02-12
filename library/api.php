@@ -3,6 +3,7 @@
     include __DIR__ . '/email-content.php';
 
     function sign_petition($params) {
+      
         $petition_id = $params['petition_id'];
         $child_id = $params['child_id'];
         $name = $params['name'];
@@ -11,6 +12,7 @@
         $country = $params['country'];
         $keep_me_updated = $params['keep_me_updated'];
         $gcaptcha = $params['g-recaptcha-response'];
+        $show_signature = $params['show_signature'];
 
         // Chek if there's a signature already
         $args = [
@@ -70,6 +72,7 @@
             'name' => $name,
             'country' => $country,
             'keep_me_updated' => $keep_me_updated,
+            'show_signature'=> $show_signature
         ];
 
         $post_args = [
