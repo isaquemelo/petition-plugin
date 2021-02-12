@@ -120,7 +120,7 @@ if(empty($goal)) {
                                     
                                     $common_signatures = new WP_Query( [
                                         'post_type' => 'signature',
-                                        'post__not_in' => $highlight_ids
+                                        'post__not_in' => $highlight_ids,
                                         'meta_query' => [
                                             'relation' => 'AND',
                                             [

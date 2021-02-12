@@ -45,8 +45,8 @@ window.addEventListener('DOMContentLoaded', function() {
 
     // Form submition
     const petitionForm = document.querySelector('#petition-form');
-    const skipedInputs = ['accept-terms', 'show-signature'];
-    const showSignature = document.getElementsByName('show-signature')[0].checked;
+    showSignature = document.getElementsByName('show_signature')[0].checked;
+    const skipedInputs = ['accept-terms', 'show_signature'];
     const defaultValues = { 'keep_me_updated': false, 'show_signature': showSignature};
 
     // Status area
@@ -102,7 +102,7 @@ window.addEventListener('DOMContentLoaded', function() {
                             if(progressArea) {
                                 progressArea.style.width = (parseInt(progressCounting.innerHTML) / goal) * 100 + "%";
                             }
-
+                            console.log("show: "+showSignature);
                             if(showSignature){
                                 const newSignature = document.createElement('div');
                                 newSignature.classList.add('user-signature');
