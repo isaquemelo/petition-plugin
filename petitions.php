@@ -73,6 +73,15 @@ function update_signature_with_no_title(){
     }
 }
 
+add_action('init', function() {
+  
+    wp_register_script('petition-block-js', plugin_dir_url('').'assets/js/petition-block.js');
+ 
+    register_block_type('petitions/petition-block', [
+        'editor_script' => 'petition-block-js',
+    ]);
+});
+
 function csv_export() {
     // Check for current user privileges 
     // if( !current_user_can( 'manage_options' ) ){ return false; }
