@@ -36,7 +36,7 @@
         ];
 
         
-        $arr_post = get_posts($args);
+        /*$arr_post = get_posts($args);
 
         if(sizeof($arr_post) >= 1) {
             return -1;
@@ -61,7 +61,7 @@
         if(!$response || !$response->success){
             wp_send_json_error('{"success":false,"data":{"hide":0,"error":1,"response":"Error: Captcha inválido."}}');
             exit;
-        }
+        }*/
         
         $post_metadatum = [
             'petition_id' => $petition_id,
@@ -73,6 +73,7 @@
         ];
 
         $post_args = [
+            'post_title' => $name,
             'post_type' => 'signature',
             'post_status' => 'publish',
             'meta_input' => $post_metadatum,
