@@ -344,6 +344,8 @@ function petition_terms_text_callback($value) {
      * strip_tags can allow whitelisted tags
      * http://php.net/manual/en/function.strip-tags.php
      */
+    $value = strip_tags($value, '<p><a><br><br/>');
+    
     return $value;
 }
 
