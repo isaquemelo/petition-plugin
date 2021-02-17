@@ -1,6 +1,6 @@
-import { __ } from '@wordpress/i18n'
-import { SelectControl } from '@wordpress/components';
-import { withState } from '@wordpress/compose';
+import { __ } from '@wordpress/i18n';
+import { SelectControl, CheckboxControl, TextControl } from '@wordpress/components';
+import { withState, useState } from '@wordpress/compose';
 
 const { Component } = wp.element;
 const { withSelect, select } = wp.data;
@@ -8,9 +8,12 @@ const { withSelect, select } = wp.data;
 class FirstBlockEdit extends Component {
 
     render() {
+
         let choices = [];
+        const { attributes, setAttributes } = this.props;
+
         if (this.props.posts) {
-            choices.push({ value: 0, label: __('Select a post', 'petition') });
+            choices.push({ value: 0, label: __('Select a petition', 'petition') });
             this.props.posts.forEach(post => {
                 choices.push({ value: post.id, label: post.title.rendered });
             });
@@ -18,12 +21,32 @@ class FirstBlockEdit extends Component {
             choices.push({ value: 0, label: __('Loading...', 'petition') })
         }
 
-        return (<SelectControl
-        label={__('Petition', 'petition')}
-        options={choices}
-        value={this.props.attributes.selectedPostId}
-        onChange={(newval) => setAttributes({ selectedPostId: parseInt(newval) })}
-        />);
+        return (
+            <div> 
+                <SelectControl
+                    label={__('Petition')}
+                    options={choices}
+                    value={ attributes.postId }
+                    onChange={ (value) => {setAttributes( { petitionID: value } ) } } 
+                />
+                <TextControl
+                    label={ __( 'Visible signature number' ) }
+                    type="number"
+                    value={ attributes.signaturesNumber }
+                    onChange={ (value) => {setAttributes( { signaturesNumber: value } ) } }
+                  />
+                <CheckboxControl
+                    label={ __( 'Show signature numbers' ) }
+                    checked={ attributes.showSignaturesNumber }
+                    onChange={ (value) => {setAttributes( { showSignaturesNumber: value } ) } }
+                />
+                <CheckboxControl
+                    label={ __( 'Show goal' ) }
+                    checked={ attributes.showGoal }
+                    onChange={ (value) => {setAttributes( { showGoal: value } ) } }
+                />
+            </div>
+        )
     }
 }
 
@@ -34,9 +57,30 @@ wp.blocks.registerBlockType('petitions/petition-block', {
 	description: 'Insert a petition block anywhere',
 	keywords: ['petition', 'petitions'],
     attributes: {
-        selectedPostId:{
-            type: 'interger',
+        petitionID:{
+            type: 'number',
+            default: null
         },
+        signaturesNumber:{
+            type: 'number',
+            default: 5
+        },
+        showSignaturesNumber:{
+            type: 'boolean',
+            default: true
+        },
+        showGoal:{
+            type: 'boolean',
+            default: true
+        },
+        totalSigns:{
+            type: 'number',
+            default: 0
+        },
+        goal:{
+            type: 'number',
+            default: 0
+        }
     },
 	edit: withSelect(select => {
             return {
@@ -45,6 +89,6 @@ wp.blocks.registerBlockType('petitions/petition-block', {
         })(FirstBlockEdit),
 	
     save: (props) => { 
-		return <div>:)</div> 
+		return (<div class="petition-block-container"></div>); 
 	},
 });
