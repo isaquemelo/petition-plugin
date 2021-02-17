@@ -47,10 +47,21 @@ function petition_post_type() {
 		'exclude_from_search'   => false,
 		'publicly_queryable'    => true,
 		'show_in_rest' => true,
-		'supports'              => array( 'title', 'editor', 'thumbnail', 'excerpt', 'page-attributes'),
+		'supports'              => array( 'title', 'editor', 'thumbnail', 'excerpt', 'page-attributes', 'custom-fields'),
 		'capability_type'       => 'page',
 		'rewrite'				=> [ 'slug' => 'petition'] 
 	);
+
+	$meta_args = array(
+					'object_subtype' => 'petition', 
+					'type' => 'integer', 
+					'description' => 'The total signatures to reach', 
+					'single' => true, 
+					'default' => null, 
+					'show_in_rest' => true
+	);
+
+	register_meta('post', 'petition_goal', $meta_args);
 	register_post_type( 'petition', $args );
 
 }
