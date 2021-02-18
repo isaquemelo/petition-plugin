@@ -19,6 +19,7 @@ include __DIR__ . '/library/settings-page.php';
 
 add_filter('template_include', 'petitions_single_template');
 
+
 function petitions_single_template($template) {
 	if (is_singular('petition')) {
 		return plugin_dir_path(__FILE__) . 'templates/single-petition.php';
@@ -61,9 +62,29 @@ function update_signature_with_no_title(){
 add_action('init', function() {
   
     wp_register_script('petition-block-js', plugin_dir_url('').'assets/js/petition-block.js');
+    wp_enqueue_style( 'petition-block-style', plugins_url('assets/css/petition.css', __FILE__), false, '1.0.0', 'all');
  
     register_block_type('petitions/petition-block', [
         'editor_script' => 'petition-block-js',
+        'render_callback' => 'petition_block_render',
+        'attributes' => [
+            'petitionID' => [
+                'type' => 'number',
+                'default' => null
+            ],
+            'signaturesNumber' => [
+                'type' => 'number',
+                'default' => 5
+            ],
+            'showSignaturesNumber' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'showGoal' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+        ],
     ]);
 });
 
@@ -123,4 +144,49 @@ function csv_export() {
     ob_end_flush();
     
     die();
+}
+
+
+function petition_block_render($attr, $content){
+    $petition_id = $attr['petitionID'];
+
+    $signatures_count = count_signatures($petition_id);
+    $goal = get_post_meta($petition_id, 'petition_goal', true );
+
+    return "<div class='single-petition'>
+                <div class='petition--content'>
+                    <div class='content-wrapper'>
+                        <div class='sidebar'>
+                            <div class='petition-block'>
+                                <div class='signatures-information'>
+                                    <div class='signatures-count'>
+                                        <div class='quantity'>
+                                            <span>".$signatures_count."</span>
+                                            /<span>".get_post_meta($petition_id, 'petition_form_signatures', true )."</span>
+                                        </div>
+                                        <div class='join'>".get_post_meta($petition_id, 'petition_form_join_title', true )."</div>
+                                        <div class='progress'>
+                                            <div class='progress-bar'>
+                                                <div class='progressed-area' style='width: 70%'></div>
+                                                <div class='progress-info'>
+                                                    <span>".$signatures_count."</span>
+                                                    <span>".$goal."</span>
+                                                </div>
+                                            </div>
+                                            <div class='progress-helper'>
+                                                <span>Signatures</span>
+                                                <span>The goal</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='signatures-history' data-signature-text='signed recently'>
+                                        <div class='user-signature'>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>";
 }

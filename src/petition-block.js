@@ -8,23 +8,6 @@ const { withSelect, select } = wp.data;
 
 
 class FirstBlockEdit extends Component {
-    
-    get_signature_count(petition_id){
-        const { attributes, setAttributes } = this.props;
-        
-        const url = document.location.origin +"/wp-json/petition/get_signature_count?petition_id="+petition_id;
-
-        fetch(url)
-          .then(res => res.json())
-          .then(
-            (result) => {
-              console.log("r: "+result);
-            },
-            (error) => {
-              return error;
-            }
-          )
-    }
 
     render() {
 
@@ -97,14 +80,6 @@ wp.blocks.registerBlockType('petitions/petition-block', {
             type: 'boolean',
             default: true
         },
-        totalSigns:{
-            type: 'number',
-            default: 0
-        },
-        goal:{
-            type: 'number',
-            default: 0
-        }
     },
 
 	edit: withSelect(select => {
