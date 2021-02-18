@@ -22,7 +22,7 @@ class FirstBlockEdit extends Component {
         }
       
         return (
-            <div class="wraper"> 
+            <div class="wrapper"> 
                 <SelectControl
                     label={__('Petition')}
                     options={choices}
@@ -36,7 +36,7 @@ class FirstBlockEdit extends Component {
                     onChange={ (showSignaturesMax) => {setAttributes( { showSignaturesMax: parseInt(showSignaturesMax) } ) } }
                   />
                 <CheckboxControl
-                    label={ __( 'Show signature numbers' ) }
+                    label={ __( 'Show signature total' ) }
                     checked={ attributes.showTotal }
                     onChange={ (showTotal) => {setAttributes( { showTotal: showTotal } ) } }
                 />
@@ -55,7 +55,7 @@ class FirstBlockEdit extends Component {
 wp.blocks.registerBlockType('petitions/petition-block', {
 	title: 'Petiton block',
 	category: 'common',
-	icon: 'smiley',
+	icon: 'welcome-write-blog',
 	description: 'Insert a petition block anywhere',
 	keywords: ['petition', 'petitions'],
     attributes: {
