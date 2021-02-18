@@ -63,12 +63,9 @@ add_action('init', function() {
   
     wp_register_script('petition-block-js', plugin_dir_url('').'assets/js/petition-block.js');
    
-    wp_enqueue_style( 'petition-block-style', plugins_url('assets/css/petition-editor.css', __FILE__), false, '1.0.0', 'all');
+    wp_enqueue_style( 'petition-block-style', plugins_url('assets/css/petition.css', __FILE__), false, '1.0.0', 'all');
 
-    wp_register_style(
-        'petition-block-editor-style', 
-        plugins_url('assets/css/petition-editor.css', __FILE__), 
-        false, '1.0.0', 'all');
+    wp_register_style('petition-block-editor-style', plugins_url('assets/css/petition-editor.css', __FILE__), false, '1.0.0', 'all');
  
     register_block_type('petitions/petition-block', [
         'editor_script' => 'petition-block-js',
@@ -188,17 +185,15 @@ function petition_block_render($attr, $content){
 
     return "<div class='single-petition'>
                 <div class='petition--content'>
-                    <div class='content-wrapper'>
-                        <div class='sidebar'>
-                            <div class='petition-block'>
-                                <div class='signatures-information'>
-                                    <div class='signatures-count'>
-                                        ".total($signatures_count, $petition_id, $attr['showTotal'])."
-                                        <div class='join'>".get_post_meta($petition_id, 'petition_form_join_title', true )."</div>"
-                                    .progress_bar($signatures_count, $goal, $attr['showGoal']).
-                                    "</div>
-                                    ".sigantures_history($petition_id, $attr['showSignaturesMax'])."  
-                                </div>
+                    <div class='sidebar'>
+                        <div class='petition-block'>
+                            <div class='signatures-information'>
+                                <div class='signatures-count'>
+                                    ".total($signatures_count, $petition_id, $attr['showTotal'])."
+                                    <div class='join'><a href='".the_permalink($petition_id)."'>".get_post_meta($petition_id, 'petition_form_join_title', true )."</a></div>"
+                                .progress_bar($signatures_count, $goal, $attr['showGoal']).
+                                "</div>
+                                ".sigantures_history($petition_id, $attr['showSignaturesMax'])."  
                             </div>
                         </div>
                     </div>
