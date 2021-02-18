@@ -1,11 +1,9 @@
 import { __ } from '@wordpress/i18n';
 import { SelectControl, CheckboxControl, TextControl } from '@wordpress/components';
 import { withState, useState } from '@wordpress/compose';
-import '../assets/css/block-style.scss';
 
 const { Component } = wp.element;
 const { withSelect, select } = wp.data;
-
 
 class FirstBlockEdit extends Component {
 
@@ -13,42 +11,39 @@ class FirstBlockEdit extends Component {
 
         let choices = [];
         const { attributes, setAttributes } = this.props;
-
+        
         if (this.props.posts) {
             choices.push({ value: 0, label: __('Select a petition', 'petition') });
             this.props.posts.forEach(post => {
                 choices.push({ value: post.id, label: post.title.rendered });
             });
-        } else {
+        }else{
             choices.push({ value: 0, label: __('Loading...', 'petition') })
         }
-
       
         return (
-            <div> 
+            <div class="wraper"> 
                 <SelectControl
                     label={__('Petition')}
                     options={choices}
-                    value={ attributes.postId }
-                    onChange={ (value) => {setAttributes( { petitionID: value } ) } } 
-                    class="d-block mb-15 post-select"
+                    value={ attributes.petitionID }
+                    onChange={ (petitionID) => {setAttributes( { petitionID: parseInt(petitionID) } ) } } 
                 />
                 <TextControl
                     label={ __( 'Visible signature number' ) }
                     type="number"
-                    value={ attributes.signaturesNumber }
-                    onChange={ (value) => {setAttributes( { signaturesNumber: value } ) } }
-                    class="d-block mb-15 signatures-number"
+                    value={ attributes.showSignaturesMax }
+                    onChange={ (showSignaturesMax) => {setAttributes( { showSignaturesMax: parseInt(showSignaturesMax) } ) } }
                   />
                 <CheckboxControl
                     label={ __( 'Show signature numbers' ) }
-                    checked={ attributes.showSignaturesNumber }
-                    onChange={ (value) => {setAttributes( { showSignaturesNumber: value } ) } }
+                    checked={ attributes.showTotal }
+                    onChange={ (showTotal) => {setAttributes( { showTotal: showTotal } ) } }
                 />
                 <CheckboxControl
                     label={ __( 'Show goal' ) }
                     checked={ attributes.showGoal }
-                    onChange={ (value) => {setAttributes( { showGoal: value } ) } }
+                    onChange={ (showGoal) => {setAttributes( { showGoal: showGoal } ) } }
                 />
             </div>
         )
@@ -68,11 +63,11 @@ wp.blocks.registerBlockType('petitions/petition-block', {
             type: 'number',
             default: null
         },
-        signaturesNumber:{
+        showSignaturesMax:{
             type: 'number',
             default: 5
         },
-        showSignaturesNumber:{
+        showTotal:{
             type: 'boolean',
             default: true
         },

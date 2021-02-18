@@ -1,0 +1,6 @@
+.wraper select, .wraper input{
+	display: block;
+	margin-bottom: 15px;
+	max-width: 280px;
+}
+
