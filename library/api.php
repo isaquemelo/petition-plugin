@@ -116,8 +116,8 @@
                 
                 wp_mail( $to, $subject, $message );
             }
-           
             //print_r([$to, $subject, $message]);
+           
         }
 
         return $post_id;
@@ -168,22 +168,5 @@
 
             'permission_callback' => '__return_true',
 
-        ) );
-    } );
-
-    add_action( 'rest_api_init', function () {
-        register_rest_route( 'petition', '/get_signature_count', array(
-            'methods' => 'GET',
-            'callback' => 'signatures_count_json',
-            'args' => [
-                'petition_id' => array(
-                    'required' => true,
-                    'validate_callback' => function($param, $request, $key) {
-                        return is_numeric( $param ) && get_post($param);
-                    }
-                ),
-            ],
-
-            'permission_callback' => '__return_true',
         ) );
     } );
