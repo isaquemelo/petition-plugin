@@ -26,3 +26,18 @@
 		
 		return $share;
 	}
+
+	function count_signatures($petition_id) {
+		global $wpdb;
+
+		$results = $wpdb->get_results(
+			"SELECT count(*) as qtd FROM 
+			$wpdb->postmeta as pm
+			JOIN $wpdb->posts AS p ON pm.post_id = p.ID
+			WHERE pm.meta_key = 'petition_id' 
+			AND pm.meta_value = '{$petition_id}' AND post_status = 'publish'", OBJECT);
+		
+		foreach ($results as $r) {
+			return $r->qtd;
+		}
+	}
