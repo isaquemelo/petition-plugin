@@ -1,13 +1,30 @@
 import { __ } from '@wordpress/i18n';
 import { SelectControl, CheckboxControl, TextControl } from '@wordpress/components';
 import { withState, useState } from '@wordpress/compose';
-import '../assets/css/petition.scss';
 import '../assets/css/block-style.scss';
 
 const { Component } = wp.element;
 const { withSelect, select } = wp.data;
 
+
 class FirstBlockEdit extends Component {
+    
+    get_signature_count(petition_id){
+        const { attributes, setAttributes } = this.props;
+        
+        const url = document.location.origin +"/wp-json/petition/get_signature_count?petition_id="+petition_id;
+
+        fetch(url)
+          .then(res => res.json())
+          .then(
+            (result) => {
+              console.log("r: "+result);
+            },
+            (error) => {
+              return error;
+            }
+          )
+    }
 
     render() {
 
@@ -17,13 +34,13 @@ class FirstBlockEdit extends Component {
         if (this.props.posts) {
             choices.push({ value: 0, label: __('Select a petition', 'petition') });
             this.props.posts.forEach(post => {
-                console.log(post.meta);
                 choices.push({ value: post.id, label: post.title.rendered });
             });
         } else {
             choices.push({ value: 0, label: __('Loading...', 'petition') })
         }
 
+      
         return (
             <div> 
                 <SelectControl
@@ -54,6 +71,8 @@ class FirstBlockEdit extends Component {
         )
     }
 }
+
+
 
 wp.blocks.registerBlockType('petitions/petition-block', {
 	title: 'Petiton block',
@@ -87,48 +106,13 @@ wp.blocks.registerBlockType('petitions/petition-block', {
             default: 0
         }
     },
+
 	edit: withSelect(select => {
             return {
                 posts: select('core').getEntityRecords('postType', 'petition')
             }
         })(FirstBlockEdit),
 	
-    save: (props) => { 
-        
-        const { attributes } = props;
-        const percentage = attributes.totalSigns/attributes.goal;
-        const goal = attributes.goal;
-        const totalSigns = attributes.totalSigns;
-
-		return (<div class="petition-block-container"></div>); 
-	},
+    save: (props) => { return null }
 });
 
-
-/*const { attributes } = props;
-        const percentage = attributes.totalSigns/attributes.goal;
-        const goal = attributes.goal;
-        const totalSigns = attributes.totalSigns;
-        
- <div class="quantity">
-                <span>93</span>
-                <span>Signatures</span>
-            </div>
-
-            <div class="join">
-                <span>Join the cause</span>
-            </div>
-
-            <div class="progress">
-                <div class="progress-bar">  
-                    <div class="progressed-area" style={{width: "'"+percentage+"'"}}></div>
-                    <div class="progress-info">
-                        <span> {{ totalSigns }} </span>
-                        <span> {{ goal }} </span>
-                    </div>
-                </div>
-                <div class="progress-helper">
-                    <span>Signatures</span>
-                    <span>The goal</span>
-                </div>
-            </div>*/
