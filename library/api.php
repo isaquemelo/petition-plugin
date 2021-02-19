@@ -123,6 +123,10 @@
         return $post_id;
     }
 
+    function signatures_count_json($params){
+        return json_encode(intval(count_signatures($params['petition_id'])));
+    }
+
     add_action( 'rest_api_init', function () {
         register_rest_route( 'petition', '/sign', array(
             'methods' => 'POST',

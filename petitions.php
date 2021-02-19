@@ -19,26 +19,12 @@ include __DIR__ . '/library/settings-page.php';
 
 add_filter('template_include', 'petitions_single_template');
 
+
 function petitions_single_template($template) {
 	if (is_singular('petition')) {
 		return plugin_dir_path(__FILE__) . 'templates/single-petition.php';
 	}
 	return $template;
-}
-
-function count_signatures($petition_id) {
-	global $wpdb;
-
-	$results = $wpdb->get_results(
-		"SELECT count(*) as qtd FROM 
-		$wpdb->postmeta as pm
-		JOIN $wpdb->posts AS p ON pm.post_id = p.ID
-		WHERE pm.meta_key = 'petition_id' 
-		AND pm.meta_value = '{$petition_id}' AND post_status = 'publish'", OBJECT);
-
-	foreach ($results as $r) {
-		return $r->qtd;
-	}
 }
 
 function set_wp_mail_content_type(){
@@ -72,6 +58,39 @@ function update_signature_with_no_title(){
         wp_update_post(['ID' => $post->ID, 'post_title' => $name]);
     }
 }
+
+add_action('init', function() {
+  
+    wp_register_script('petition-block-js', plugin_dir_url('').'assets/js/petition-block.js');
+   
+    wp_enqueue_style( 'petition-block-style', plugins_url('assets/css/petition.css', __FILE__), false, '1.0.0', 'all');
+
+    wp_register_style('petition-block-editor-style', plugins_url('assets/css/petition-editor.css', __FILE__), false, '1.0.0', 'all');
+ 
+    register_block_type('petitions/petition-block', [
+        'editor_script' => 'petition-block-js',
+        'editor_style' => 'petition-block-editor-style',
+        'render_callback' => 'petition_block_render',
+        'attributes' => [
+            'petitionID' => [
+                'type' => 'number',
+                'default' => null
+            ],
+            'showSignaturesMax' => [
+                'type' => 'number',
+                'default' => 5
+            ],
+            'showTotal' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'showGoal' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+        ],
+    ]);
+});
 
 function csv_export() {
     // Check for current user privileges 
@@ -129,4 +148,119 @@ function csv_export() {
     ob_end_flush();
     
     die();
+}
+
+function progress_bar($signatures_count, $goal, $show = true){
+    if(!$show) return '';
+    
+    return "<div class='progress'>
+                <div class='progress-bar'>
+                    <div class='progressed-area' style='width:".progress_calc($signatures_count, $goal)."%'></div>
+                    <div class='progress-info'>
+                        <span>".$signatures_count."</span>
+                        <span>".$goal."</span>
+                    </div>
+                </div>
+                <div class='progress-helper'>
+                    <span>Signatures</span>
+                    <span>The goal</span>
+                </div>
+            </div>";
+}
+
+function total($signatures_count, $petition_id, $show=true){
+    if(!$show) return '';
+    
+    return "<div class='quantity'>
+                <span>".$signatures_count."</span>
+                <span>".get_post_meta($petition_id, 'petition_form_signatures', true )."</span>
+            </div>";
+}
+
+function petition_block_render($attr, $content){
+    $petition_id = $attr['petitionID'];
+
+    $signatures_count = count_signatures($petition_id);
+    $goal = get_post_meta($petition_id, 'petition_goal', true );
+
+    return "<div class='single-petition'>
+                <div class='petition--content'>
+                    <div class='sidebar'>
+                        <div class='petition-block'>
+                            <div class='signatures-information'>
+                                <div class='signatures-count'>
+                                    ".total($signatures_count, $petition_id, $attr['showTotal'])."
+                                    <div class='join'><a href='".the_permalink($petition_id)."'>".get_post_meta($petition_id, 'petition_form_join_title', true )."</a></div>"
+                                .progress_bar($signatures_count, $goal, $attr['showGoal']).
+                                "</div>
+                                ".sigantures_history($petition_id, $attr['showSignaturesMax'])."  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>";
+}
+
+function progress_calc($signatures_count, $goal){
+
+    if($signatures_count < $goal) {
+        $complete = ($signatures_count / $goal) * 100;
+    } else {
+        $complete = 100;
+    }
+    
+    return $complete;
+}
+
+function sigantures_history($petition_id, $signatures_max){
+     
+    $history = "<div class='signatures-history' data-signature-text='".get_post_meta($petition_id, 'petition_form_submission', true)."'>";
+
+    $svg = "<svg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='user' role='img' xmlns='http://www.w3.org/2000/svg'  viewBox='0 0 448 512' class='svg-inline--fa fa-user fa-w-14 fa-3x'>
+            <path fill='currentColor' d='M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z' class=''>
+            </path>
+        </svg>"; 
+
+    $highlight_ids = get_post_meta(get_the_ID(), 'highlight_signatures', true);
+    $highlight_ids = array_map('intval', explode(",", $highlight_ids));
+    $highlights = new WP_Query(['post__in' => $highlight_ids, 'post_type' => 'signature']);
+    
+    $common_signatures = new WP_Query( [
+        'post_type' => 'signature',
+        'post__not_in' => $highlight_ids,
+        'meta_query' => [
+            'relation' => 'AND',
+            [
+                'key' => 'petition_id',
+                'value' => $petition_id,
+                'compare' => '='
+            ],
+            [
+                'key' => 'show_signature',
+                'value' => true,
+                'compare' => '='
+            ]
+        ],
+        'posts_per_page' => $signatures_max
+    ] );
+     
+    $signatures = new WP_Query();
+    $signatures->posts = array_merge( $highlights->posts, $common_signatures->posts );
+    $signatures->post_count = $highlights->post_count + $common_signatures->post_count;
+ 
+        if ( $signatures->have_posts() &&  get_post_meta($petition_id, 'petition_signatures_shown', true) !== '0') {
+            
+            while ( $signatures->have_posts() ) {
+                
+                $signatures->the_post(); 
+                
+                $history .= "<div class='user-signature'>".$svg.get_post_meta(get_the_ID(), 'name', true) . ' '. get_post_meta($petition_id, 'petition_form_submission', true)."</div>";
+            }
+        } else {
+            // no posts found
+        }
+        /* Restore original Post Data */
+        wp_reset_postdata();
+ 
+    return $history .= "</div>";
 }
