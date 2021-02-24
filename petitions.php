@@ -21,7 +21,10 @@ include __DIR__ . '/library/settings-page.php';
 add_filter('template_include', 'petitions_single_template');
 
 function petitions_single_template($template) {
+    if (is_singular('petition')) {
 		return plugin_dir_path(__FILE__) . 'templates/single-petition.php';
+	}
+	return $template;
 }
 
 function set_wp_mail_content_type(){
@@ -57,8 +60,8 @@ function update_signature_with_no_title(){
 }
 
 add_action('init', function() {
-
-    wp_register_script('petition-block-js', plugin_dir_url('').'assets/js/petition-block.js');
+    // echo plugins_url('assets/js/out/petition-block.js', __FILE__);
+    wp_register_script('petition-block-js', plugins_url('assets/js/output/petition-block.js', __FILE__) );
 
     wp_enqueue_style( 'petition-block-style', plugins_url('assets/css/petition.css', __FILE__), false, '1.0.0', 'all');
 
@@ -180,22 +183,17 @@ function petition_block_render($attr, $content){
     $signatures_count = count_signatures($petition_id);
     $goal = get_post_meta($petition_id, 'petition_goal', true );
 
-    return "<div class='single-petition'>
-                <div class='petition--content'>
-                    <div class='sidebar'>
-                        <div class='petition-block'>
-                            <div class='signatures-information'>
-                                <div class='signatures-count'>
-                                    ".total($signatures_count, $petition_id, $attr['showTotal'])."
-                                    <div class='join'><a href='".the_permalink($petition_id)."'>".get_post_meta($petition_id, 'petition_form_join_title', true )."</a></div>"
-                                .progress_bar($signatures_count, $goal, $attr['showGoal']).
-                                "</div>
-                                ".sigantures_history($petition_id, $attr['showSignaturesMax'])."  
-                            </div>
-                        </div>
-                    </div>
+    return "<div class='petition-block'>
+                <div class='signatures-information'>
+                    <div class='signatures-count'>
+                        ".total($signatures_count, $petition_id, $attr['showTotal'])."
+                        <div class='join'><a href='". get_the_permalink($petition_id) ."'>".get_post_meta($petition_id, 'petition_form_join_title', true )."</a></div>"
+                    .progress_bar($signatures_count, $goal, $attr['showGoal']).
+                    "</div>
+                    ".sigantures_history($petition_id, $attr['showSignaturesMax'])."  
                 </div>
-            </div>";
+            </div>
+            ";
 }
 
 function progress_calc($signatures_count, $goal){
