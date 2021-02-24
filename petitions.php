@@ -5,12 +5,13 @@
 * Plugin Description: Abaixo Assinados by hacklab
 * Author: hacklab/
 */
+include __DIR__ . '/library/utils.php';
 include __DIR__ . '/library/api.php';
 include __DIR__ . '/library/widgets.php';
 include __DIR__ . '/library/ctps.php';
 include __DIR__ . '/library/admin-columns.php';
 include __DIR__ . '/library/assets.php';
-include __DIR__ . '/library/ajax.php';
+//include __DIR__ . '/library/ajax.php';
 include __DIR__ . '/library/metaboxes.php';
 include __DIR__ . '/library/register-sidebars.php';
 include __DIR__ . '/library/export-signatures.php';
@@ -19,12 +20,8 @@ include __DIR__ . '/library/settings-page.php';
 
 add_filter('template_include', 'petitions_single_template');
 
-
 function petitions_single_template($template) {
-	if (is_singular('petition')) {
 		return plugin_dir_path(__FILE__) . 'templates/single-petition.php';
-	}
-	return $template;
 }
 
 function set_wp_mail_content_type(){
@@ -60,9 +57,9 @@ function update_signature_with_no_title(){
 }
 
 add_action('init', function() {
-  
+
     wp_register_script('petition-block-js', plugin_dir_url('').'assets/js/petition-block.js');
-   
+
     wp_enqueue_style( 'petition-block-style', plugins_url('assets/css/petition.css', __FILE__), false, '1.0.0', 'all');
 
     wp_register_style('petition-block-editor-style', plugins_url('assets/css/petition-editor.css', __FILE__), false, '1.0.0', 'all');

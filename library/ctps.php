@@ -57,7 +57,7 @@ function petition_post_type() {
 					'type' => 'integer', 
 					'description' => 'The total signatures to reach', 
 					'single' => true, 
-					'default' => null, 
+					'default' => 0, 
 					'show_in_rest' => true
 	);
 

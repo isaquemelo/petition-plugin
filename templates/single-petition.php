@@ -1,7 +1,6 @@
 <?php 
 
 include __DIR__ . '/../library/countries.php';
-include __DIR__ . '/../library/utils.php';
 
 get_header('single-petition');
 the_post();

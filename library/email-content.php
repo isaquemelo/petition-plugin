@@ -1,7 +1,5 @@
 <?php 
 
-include __DIR__ . '/../library/utils.php';
-
 function get_logo_url(){
     return wp_get_attachment_image_src(get_theme_mod( 'custom_logo' ), 'full' )[0];
 }
