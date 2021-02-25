@@ -21,8 +21,6 @@ include __DIR__ . '/library/settings-page.php';
 add_filter('template_include', 'petitions_single_template');
 
 function petitions_single_template($template) {
-   
-    set_block_custom_colors();
 
     if (is_singular('petition')) {
 		return plugin_dir_path(__FILE__) . 'templates/single-petition.php';
@@ -63,30 +61,54 @@ function update_signature_with_no_title(){
 }
 
 
-function set_block_custom_colors(){
-    $colors = [
-                'primary' => newspack_get_primary_color(),
-                'secondary' => newspack_get_secondary_color()
-                ]; 
-    ?>
+function set_block_custom_colors($wp_customize){
+    $wp_customize->add_section( 'petition_block_style' , array(
+        'title'      => __( 'Petition block', 'mytheme' ),
+        'priority'   => 30,
+    ) );
 
-    <style type="text/css">
-        .progress-bar .progressed-area, .petition-form button{
-            background-color: <?= $colors['primary'] ?> !important;
-        }
+    $wp_customize->add_setting(
+        'primary_block_color',
+        array(
+            'sanitize_callback' => 'sanitize_hex_color',
+        )
+    );
 
-        .progress .progress-helper span:first-child, .signatures-count .quantity span:last-child{
-            color: <?= $colors['primary'] ?> !important;
-        }
+    $wp_customize->add_control(
+        new WP_Customize_Color_Control(
+            $wp_customize,
+            'primary_block_color',
+            array(
+                'label' => __('Petition block primary color', 'petition'),
+                'description' => __('', 'petition'),
+                'section'     => 'petition_block_style',
+            )
+        )
+    );
 
-       .progress .progress-helper span:last-child{
-            color: <?= $colors['secondary'] ?> !important;
-       }
-        
-    </style>
-    
-    <?php 
+    $wp_customize->add_setting(
+        'secondary_block_color',
+        array(
+            'sanitize_callback' => 'sanitize_hex_color',
+        )
+    );
+
+    $wp_customize->add_control(
+        new WP_Customize_Color_Control(
+            $wp_customize,
+            'secondary_block_color',
+            array(
+                'label' => __('Petition block secondary color', 'petition'),
+                'description' => __('', 'petition'),
+                'section'     => 'petition_block_style',
+            )
+        )
+    );
+
 }
+
+add_action('customize_register', 'set_block_custom_colors');
+
 
 add_action('init', function() {
 
