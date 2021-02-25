@@ -217,6 +217,7 @@ add_action('cmb2_admin_init', function () {
         'name' => 'Display "Show my signature publicly" option?',
         'id' => 'petition_form_enable_show_signature_publicly',
         'type' => 'checkbox',
+        'default' => cmb2_set_checkbox_default_for_new_post(true)
     ]);
 
     $cmb_petition_form->add_field([
@@ -345,6 +346,10 @@ add_action('cmb2_admin_init', function () {
     ]);
 
 });
+
+function cmb2_set_checkbox_default_for_new_post( $default ) {
+    return isset( $_GET['post'] ) ? '' : ( $default ? (string) $default : '' );
+}
 
 function petition_terms_text_callback($value) {
     /*
