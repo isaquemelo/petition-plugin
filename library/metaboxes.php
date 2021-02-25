@@ -24,12 +24,21 @@ add_action('cmb2_admin_init', function () {
         'select_behavior' => 'replace',
     ]);
 
+    $petition_id = isset($_GET['post']) && $_GET['post']? $_GET['post'] : -1;
+    // echo json_encode();
+    // die();
 
     $cmb_petition_page->add_field([
         'name' => 'Pin signatures',
         'description' => 'Select a group of fixed signatures to pin in petition\'s page',
         'id' => 'highlight_signatures',
         'type' => 'post_search_text',
+        'post__in' => get_posts([
+            'post_type' => 'signature',
+            'fields' => 'ids',
+            'meta_key' => 'petition_id',
+            'meta_value' => $petition_id,
+        ]),
         'post_type'   => 'signature',
         'select_type' => 'checkbox',
         'select_behavior' => 'replace',
@@ -275,6 +284,12 @@ add_action('cmb2_admin_init', function () {
     $cmb_signature->add_field([
         'name' => 'Keep me updated',
         'id' => 'keep_me_updated',
+        'type' => 'checkbox',
+    ]);
+
+    $cmb_signature->add_field([
+        'name' => 'Public signature',
+        'id' => 'show_signature',
         'type' => 'checkbox',
     ]);
 
