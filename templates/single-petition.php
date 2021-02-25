@@ -113,7 +113,7 @@ if(empty($goal)) {
                             <div class="signatures-history" data-signature-text="<?= get_post_meta($child_id, 'petition_form_submission', true) ?>">
                                 <?php 
                                     // The Query
-                                    $highlight_ids = get_post_meta(get_the_ID(), 'highlight_signatures', true);
+                                    $highlight_ids = get_post_meta($petition_id, 'highlight_signatures', true);
                                     $highlight_ids = array_map('intval', explode(",", $highlight_ids));
                                     $highlights = new WP_Query(['post__in' => $highlight_ids, 'post_type' => 'signature']);
                                     
