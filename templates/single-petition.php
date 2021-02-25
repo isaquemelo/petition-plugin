@@ -445,14 +445,18 @@ if(empty($goal)) {
                                                 <?= get_post_meta(get_the_ID(), 'petition_form_keep_me_updated', true ) ?>
                                             </label>
                                         </div>
+                                        
+                                        <?php $show_publicly_check_box = get_post_meta(get_the_ID(), 'petition_form_enable_show_signature_publicly', true ) ?>
 
+                                        <?php if($show_publicly_check_box): ?>
                                         <div>
                                             <input type="checkbox" id="show-signature" name="show_signature">
                                             <label for="show-signature">
                                                 <?= get_post_meta(get_the_ID(), 'show_signature', true ) ?>
                                             </label>
                                         </div>
-
+                                        <?php endif; ?>
+                                        
                                     </fieldset>
 
                                     <input type="text" id="petition-id" name="petition_id" hidden value="<?= $petition_id ?>">
