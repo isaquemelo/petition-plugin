@@ -109,6 +109,27 @@ function set_block_custom_colors($wp_customize){
 
 add_action('customize_register', 'set_block_custom_colors');
 
+function set_block_custom_colors_css()
+{
+    ?>
+         <style type="text/css">
+             .signatures-count .progress .progress-bar .progressed-area, .petition-block .signatures-information .petition-form button,  .signatures-information .petition-form button { background-color: <?= get_theme_mod('primary_block_color', '#000000'); ?> !important; }
+
+             .petition-block .signatures-information .signatures-count .progress .progress-helper span:first-child, .signatures-count .progress .progress-helper span:first-child{
+                color: <?= get_theme_mod('primary_block_color', '#000000'); ?> !important;
+             }
+
+             .petition-block .signatures-information .signatures-count .quantity span:last-child, .signatures-information .signatures-count .quantity span:last-child, .signatures-count .progress .progress-helper span:last-child{
+                color: <?= get_theme_mod('secondary_block_color', '#000000'); ?> !important;
+             } 
+
+
+
+         </style>
+    <?php
+}
+add_action( 'wp_head', 'set_block_custom_colors_css');
+
 
 add_action('init', function() {
 
