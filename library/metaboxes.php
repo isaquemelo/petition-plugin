@@ -34,6 +34,7 @@ add_action('cmb2_admin_init', function () {
         'id' => 'highlight_signatures',
         'type' => 'post_search_text',
         'post__in' => get_posts([
+            'numberposts' => -1,
             'post_type' => 'signature',
             'fields' => 'ids',
             'meta_key' => 'petition_id',
