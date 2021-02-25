@@ -22,7 +22,7 @@ add_filter('template_include', 'petitions_single_template');
 
 function petitions_single_template($template) {
    
-    //set_block_custom_colors();
+    set_block_custom_colors();
 
     if (is_singular('petition')) {
 		return plugin_dir_path(__FILE__) . 'templates/single-petition.php';
@@ -63,7 +63,7 @@ function update_signature_with_no_title(){
 }
 
 
-/*function set_block_custom_colors(){
+function set_block_custom_colors(){
     $colors = [
                 'primary' => newspack_get_primary_color(),
                 'secondary' => newspack_get_secondary_color()
@@ -75,18 +75,18 @@ function update_signature_with_no_title(){
             background-color: <?= $colors['primary'] ?> !important;
         }
 
-        .progress .progress-helper span:first-child{
+        .progress .progress-helper span:first-child, .signatures-count .quantity span:last-child{
             color: <?= $colors['primary'] ?> !important;
         }
 
-       .signatures-count .quantity span:last-child, .progress .progress-helper span:last-child{
+       .progress .progress-helper span:last-child{
             color: <?= $colors['secondary'] ?> !important;
        }
         
     </style>
     
     <?php 
-}*/
+}
 
 add_action('init', function() {
 
