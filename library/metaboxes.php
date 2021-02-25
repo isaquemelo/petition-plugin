@@ -214,10 +214,9 @@ add_action('cmb2_admin_init', function () {
     ]);
     
     $cmb_petition_form->add_field([
-        'name' => 'Is "Show my signature publicly" mandatory?',
+        'name' => 'Display "Show my signature publicly" option?',
         'id' => 'petition_form_enable_show_signature_publicly',
         'type' => 'checkbox',
-        'default' => true,
     ]);
 
     $cmb_petition_form->add_field([
