@@ -21,6 +21,9 @@ include __DIR__ . '/library/settings-page.php';
 add_filter('template_include', 'petitions_single_template');
 
 function petitions_single_template($template) {
+   
+    //set_block_custom_colors();
+
     if (is_singular('petition')) {
 		return plugin_dir_path(__FILE__) . 'templates/single-petition.php';
 	}
@@ -59,8 +62,34 @@ function update_signature_with_no_title(){
     }
 }
 
+
+/*function set_block_custom_colors(){
+    $colors = [
+                'primary' => newspack_get_primary_color(),
+                'secondary' => newspack_get_secondary_color()
+                ]; 
+    ?>
+
+    <style type="text/css">
+        .progress-bar .progressed-area, .petition-form button{
+            background-color: <?= $colors['primary'] ?> !important;
+        }
+
+        .progress .progress-helper span:first-child{
+            color: <?= $colors['primary'] ?> !important;
+        }
+
+       .signatures-count .quantity span:last-child, .progress .progress-helper span:last-child{
+            color: <?= $colors['secondary'] ?> !important;
+       }
+        
+    </style>
+    
+    <?php 
+}*/
+
 add_action('init', function() {
-    // echo plugins_url('assets/js/out/petition-block.js', __FILE__);
+
     wp_register_script('petition-block-js', plugins_url('assets/js/output/petition-block.js', __FILE__) );
 
     wp_enqueue_style( 'petition-block-style', plugins_url('assets/css/petition.css', __FILE__), false, '1.0.0', 'all');
@@ -150,7 +179,7 @@ function csv_export() {
     die();
 }
 
-function progress_bar($signatures_count, $goal, $show = true){
+function progress_bar($petition_id, $signatures_count, $goal, $show = true){
     if(!$show) return '';
     
     return "<div class='progress'>
@@ -162,8 +191,8 @@ function progress_bar($signatures_count, $goal, $show = true){
                     </div>
                 </div>
                 <div class='progress-helper'>
-                    <span>Signatures</span>
-                    <span>The goal</span>
+                    <span>".get_post_meta($petition_id, 'petition_form_signatures', true)."</span>
+                    <span>".get_post_meta($petition_id, 'petition_form_goal', true)."</span>
                 </div>
             </div>";
 }
@@ -188,7 +217,7 @@ function petition_block_render($attr, $content){
                     <div class='signatures-count'>
                         ".total($signatures_count, $petition_id, $attr['showTotal'])."
                         <div class='join'><a href='". get_the_permalink($petition_id) ."'>".get_post_meta($petition_id, 'petition_form_join_title', true )."</a></div>"
-                    .progress_bar($signatures_count, $goal, $attr['showGoal']).
+                    .progress_bar($petition_id, $signatures_count, $goal, $attr['showGoal']).
                     "</div>
                     ".sigantures_history($petition_id, $attr['showSignaturesMax'])."  
                 </div>

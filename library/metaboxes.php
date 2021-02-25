@@ -137,9 +137,11 @@ add_action('cmb2_admin_init', function () {
         'default' => 'Signed',
         'description' => '1st signer\'s email line: &lt;signature\'s name&gt; from &lt;country&gt; signed'
     ]);
+    
+
 
     $cmb_petition_form->add_field([
-        'name' => 'The goal',
+        'name' => 'The goal petition\'s field',
         'id' => 'petition_form_goal',
         'type' => 'text',
         'default' => 'The goal',
@@ -209,6 +211,13 @@ add_action('cmb2_admin_init', function () {
         'id' => 'show_signature',
         'type' => 'text',
         'default' => 'Show my signature publicly'
+    ]);
+    
+    $cmb_petition_form->add_field([
+        'name' => 'Is "Show my signature publicly" mandatory?',
+        'id' => 'petition_form_enable_show_signature_publicly',
+        'type' => 'checkbox',
+        'default' => true,
     ]);
 
     $cmb_petition_form->add_field([
