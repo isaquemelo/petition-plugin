@@ -1,7 +1,6 @@
 <?php 
 
 include __DIR__ . '/../library/countries.php';
-include __DIR__ . '/../library/utils.php';
 
 get_header('single-petition');
 the_post();
@@ -114,7 +113,7 @@ if(empty($goal)) {
                             <div class="signatures-history" data-signature-text="<?= get_post_meta($child_id, 'petition_form_submission', true) ?>">
                                 <?php 
                                     // The Query
-                                    $highlight_ids = get_post_meta(get_the_ID(), 'highlight_signatures', true);
+                                    $highlight_ids = get_post_meta($petition_id, 'highlight_signatures', true);
                                     $highlight_ids = array_map('intval', explode(",", $highlight_ids));
                                     $highlights = new WP_Query(['post__in' => $highlight_ids, 'post_type' => 'signature']);
                                     
@@ -174,7 +173,12 @@ if(empty($goal)) {
                                 <form action="?" method="POST" id="petition-form" data-petition-id="<?= $petition_id ?>" onsubmit="return false;">
                                     <input type="text" name="name" placeholder="<?= get_post_meta(get_the_ID(), 'petition_form_nome', true ) ?>" required>
                                     <input type="email" name="email" placeholder="<?= get_post_meta(get_the_ID(), 'petition_form_email', true ) ?>" required>
-                                    
+
+                                    <?php $show_field = get_post_meta(get_the_ID(), 'petition_form_enable_phone_field', true); ?>
+
+                                    <?php if($show_field): ?>
+                                        <input type="tel" name="phone" placeholder="<?= get_post_meta(get_the_ID(), 'petition_form_phone', true ) ?>">
+                                        <?php endif; ?>
                                     <fieldset>
                                         <!-- <label for="country">
                                             <?= get_post_meta(get_the_ID(), 'petition_form_country', true ) ?>
@@ -446,14 +450,18 @@ if(empty($goal)) {
                                                 <?= get_post_meta(get_the_ID(), 'petition_form_keep_me_updated', true ) ?>
                                             </label>
                                         </div>
+                                        
+                                        <?php $show_publicly_check_box = get_post_meta(get_the_ID(), 'petition_form_enable_show_signature_publicly', true ) ?>
 
+                                        <?php if($show_publicly_check_box): ?>
                                         <div>
                                             <input type="checkbox" id="show-signature" name="show_signature">
                                             <label for="show-signature">
                                                 <?= get_post_meta(get_the_ID(), 'show_signature', true ) ?>
                                             </label>
                                         </div>
-
+                                        <?php endif; ?>
+                                        
                                     </fieldset>
 
                                     <input type="text" id="petition-id" name="petition_id" hidden value="<?= $petition_id ?>">

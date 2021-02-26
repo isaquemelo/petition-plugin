@@ -24,12 +24,22 @@ add_action('cmb2_admin_init', function () {
         'select_behavior' => 'replace',
     ]);
 
+    $petition_id = isset($_GET['post']) && $_GET['post']? $_GET['post'] : -1;
+    // echo json_encode();
+    // die();
 
     $cmb_petition_page->add_field([
         'name' => 'Pin signatures',
         'description' => 'Select a group of fixed signatures to pin in petition\'s page',
         'id' => 'highlight_signatures',
         'type' => 'post_search_text',
+        'post__in' => get_posts([
+            'numberposts' => -1,
+            'post_type' => 'signature',
+            'fields' => 'ids',
+            'meta_key' => 'petition_id',
+            'meta_value' => $petition_id,
+        ]),
         'post_type'   => 'signature',
         'select_type' => 'checkbox',
         'select_behavior' => 'replace',
@@ -137,9 +147,11 @@ add_action('cmb2_admin_init', function () {
         'default' => 'Signed',
         'description' => '1st signer\'s email line: &lt;signature\'s name&gt; from &lt;country&gt; signed'
     ]);
+    
+
 
     $cmb_petition_form->add_field([
-        'name' => 'The goal',
+        'name' => 'The goal petition\'s field',
         'id' => 'petition_form_goal',
         'type' => 'text',
         'default' => 'The goal',
@@ -210,6 +222,13 @@ add_action('cmb2_admin_init', function () {
         'type' => 'text',
         'default' => 'Show my signature publicly'
     ]);
+    
+    $cmb_petition_form->add_field([
+        'name' => 'Display "Show my signature publicly" option?',
+        'id' => 'petition_form_enable_show_signature_publicly',
+        'type' => 'checkbox',
+        'default' => cmb2_set_checkbox_default_for_new_post(true)
+    ]);
 
     $cmb_petition_form->add_field([
         'name' => 'Submit button',
@@ -266,6 +285,13 @@ add_action('cmb2_admin_init', function () {
         'type' => 'text',
     ]);
 
+    $cmb_petition_form->add_field([
+        'name' => 'Display phone field',
+        'id' => 'petition_form_enable_phone_field',
+        'type' => 'checkbox',
+        'default' => cmb2_set_checkbox_default_for_new_post(true)
+    ]);
+
     $cmb_signature->add_field([
         'name' => 'Country',
         'id' => 'country',
@@ -275,6 +301,12 @@ add_action('cmb2_admin_init', function () {
     $cmb_signature->add_field([
         'name' => 'Keep me updated',
         'id' => 'keep_me_updated',
+        'type' => 'checkbox',
+    ]);
+
+    $cmb_signature->add_field([
+        'name' => 'Public signature',
+        'id' => 'show_signature',
         'type' => 'checkbox',
     ]);
 
@@ -337,6 +369,10 @@ add_action('cmb2_admin_init', function () {
     ]);
 
 });
+
+function cmb2_set_checkbox_default_for_new_post( $default ) {
+    return isset( $_GET['post'] ) ? '' : ( $default ? (string) $default : '' );
+}
 
 function petition_terms_text_callback($value) {
     /*

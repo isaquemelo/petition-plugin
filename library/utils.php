@@ -1,6 +1,6 @@
 <?php  
 	
-	function excerpt($text, $permalink){
+	function share_excerpt($text, $permalink){
 		$text = wp_strip_all_tags($text);
 
         $max_length = 280 - strlen($permalink);
@@ -16,7 +16,7 @@
 
 	function share_links($text, $post_id, $content=[]){
         $permalink = get_permalink($post_id);
-		$text = excerpt($text, $permalink);
+		$text = share_excerpt($text, $permalink);
 		
 		$href_fb = "https://www.facebook.com/sharer/sharer.php?u=".urlencode($permalink)."&quote=".urlencode($text);
 		$href_tt = "https://twitter.com/intent/tweet?text=".urlencode($text)."&url=".urlencode($permalink);

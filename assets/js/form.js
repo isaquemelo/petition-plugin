@@ -67,7 +67,9 @@ window.addEventListener('DOMContentLoaded', function() {
         petitionForm.addEventListener('submit', function(e) {
             const filteredData = {};
             const formData = new FormData(petitionForm);
-            const showSignatureChecked = document.getElementsByName('show_signature')[0].checked;
+            
+            var existShowPublicly = document.getElementsByName('show_signature');
+            const showSignatureChecked = (existShowPublicly.length) ? existShowPublicly[0].checked : false;
             
             filteredData['show_signature'] = showSignatureChecked;
 

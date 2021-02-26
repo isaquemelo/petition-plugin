@@ -5,6 +5,7 @@
 * Plugin Description: Abaixo Assinados by hacklab
 * Author: hacklab/
 */
+include __DIR__ . '/library/utils.php';
 include __DIR__ . '/library/api.php';
 include __DIR__ . '/library/widgets.php';
 include __DIR__ . '/library/ctps.php';
@@ -19,9 +20,9 @@ include __DIR__ . '/library/settings-page.php';
 
 add_filter('template_include', 'petitions_single_template');
 
-
 function petitions_single_template($template) {
-	if (is_singular('petition')) {
+
+    if (is_singular('petition')) {
 		return plugin_dir_path(__FILE__) . 'templates/single-petition.php';
 	}
 	return $template;
@@ -59,10 +60,81 @@ function update_signature_with_no_title(){
     }
 }
 
+
+function set_block_custom_colors($wp_customize){
+    $wp_customize->add_section( 'petition_block_style' , array(
+        'title'      => __( 'Petition block', 'mytheme' ),
+        'priority'   => 30,
+    ) );
+
+    $wp_customize->add_setting(
+        'primary_block_color',
+        array(
+            'sanitize_callback' => 'sanitize_hex_color',
+        )
+    );
+
+    $wp_customize->add_control(
+        new WP_Customize_Color_Control(
+            $wp_customize,
+            'primary_block_color',
+            array(
+                'label' => __('Petition block primary color', 'petition'),
+                'description' => __('', 'petition'),
+                'section'     => 'petition_block_style',
+            )
+        )
+    );
+
+    $wp_customize->add_setting(
+        'secondary_block_color',
+        array(
+            'sanitize_callback' => 'sanitize_hex_color',
+        )
+    );
+
+    $wp_customize->add_control(
+        new WP_Customize_Color_Control(
+            $wp_customize,
+            'secondary_block_color',
+            array(
+                'label' => __('Petition block secondary color', 'petition'),
+                'description' => __('', 'petition'),
+                'section'     => 'petition_block_style',
+            )
+        )
+    );
+
+}
+
+add_action('customize_register', 'set_block_custom_colors');
+
+function set_block_custom_colors_css()
+{
+    ?>
+         <style type="text/css">
+             .signatures-count .progress .progress-bar .progressed-area, .petition-block .signatures-information .petition-form button,  .signatures-information .petition-form button { background-color: <?= get_theme_mod('primary_block_color', '#000000'); ?> !important; }
+
+             .petition-block .signatures-information .signatures-count .progress .progress-helper span:first-child, .signatures-count .progress .progress-helper span:first-child{
+                color: <?= get_theme_mod('primary_block_color', '#000000'); ?> !important;
+             }
+
+             .petition-block .signatures-information .signatures-count .quantity span:last-child, .signatures-information .signatures-count .quantity span:last-child, .signatures-count .progress .progress-helper span:last-child{
+                color: <?= get_theme_mod('secondary_block_color', '#000000'); ?> !important;
+             } 
+
+
+
+         </style>
+    <?php
+}
+add_action( 'wp_head', 'set_block_custom_colors_css');
+
+
 add_action('init', function() {
-  
-    wp_register_script('petition-block-js', plugin_dir_url('').'assets/js/petition-block.js');
-   
+
+    wp_register_script('petition-block-js', plugins_url('assets/js/output/petition-block.js', __FILE__) );
+
     wp_enqueue_style( 'petition-block-style', plugins_url('assets/css/petition.css', __FILE__), false, '1.0.0', 'all');
 
     wp_register_style('petition-block-editor-style', plugins_url('assets/css/petition-editor.css', __FILE__), false, '1.0.0', 'all');
@@ -150,7 +222,7 @@ function csv_export() {
     die();
 }
 
-function progress_bar($signatures_count, $goal, $show = true){
+function progress_bar($petition_id, $signatures_count, $goal, $show = true){
     if(!$show) return '';
     
     return "<div class='progress'>
@@ -162,8 +234,8 @@ function progress_bar($signatures_count, $goal, $show = true){
                     </div>
                 </div>
                 <div class='progress-helper'>
-                    <span>Signatures</span>
-                    <span>The goal</span>
+                    <span>".get_post_meta($petition_id, 'petition_form_signatures', true)."</span>
+                    <span>".get_post_meta($petition_id, 'petition_form_goal', true)."</span>
                 </div>
             </div>";
 }
@@ -183,22 +255,17 @@ function petition_block_render($attr, $content){
     $signatures_count = count_signatures($petition_id);
     $goal = get_post_meta($petition_id, 'petition_goal', true );
 
-    return "<div class='single-petition'>
-                <div class='petition--content'>
-                    <div class='sidebar'>
-                        <div class='petition-block'>
-                            <div class='signatures-information'>
-                                <div class='signatures-count'>
-                                    ".total($signatures_count, $petition_id, $attr['showTotal'])."
-                                    <div class='join'><a href='".the_permalink($petition_id)."'>".get_post_meta($petition_id, 'petition_form_join_title', true )."</a></div>"
-                                .progress_bar($signatures_count, $goal, $attr['showGoal']).
-                                "</div>
-                                ".sigantures_history($petition_id, $attr['showSignaturesMax'])."  
-                            </div>
-                        </div>
-                    </div>
+    return "<div class='petition-block'>
+                <div class='signatures-information'>
+                    <div class='signatures-count'>
+                        ".total($signatures_count, $petition_id, $attr['showTotal'])."
+                        <div class='join'><a href='". get_the_permalink($petition_id) ."'>".get_post_meta($petition_id, 'petition_form_join_title', true )."</a></div>"
+                    .progress_bar($petition_id, $signatures_count, $goal, $attr['showGoal']).
+                    "</div>
+                    ".sigantures_history($petition_id, $attr['showSignaturesMax'])."  
                 </div>
-            </div>";
+            </div>
+            ";
 }
 
 function progress_calc($signatures_count, $goal){
