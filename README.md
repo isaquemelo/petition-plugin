@@ -8,4 +8,3 @@ Wordpress Petition Plugin
 	Get the recaptcha API keys at: 
 		https://www.google.com/recaptcha/admin/create
 	- Insert the keys in settings < petitions plugin
-	- Update the permaliks to avoid 404 erros
