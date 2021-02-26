@@ -173,7 +173,12 @@ if(empty($goal)) {
                                 <form action="?" method="POST" id="petition-form" data-petition-id="<?= $petition_id ?>" onsubmit="return false;">
                                     <input type="text" name="name" placeholder="<?= get_post_meta(get_the_ID(), 'petition_form_nome', true ) ?>" required>
                                     <input type="email" name="email" placeholder="<?= get_post_meta(get_the_ID(), 'petition_form_email', true ) ?>" required>
-                                    
+
+                                    <?php $show_field = get_post_meta(get_the_ID(), 'petition_form_enable_phone_field', true); ?>
+
+                                    <?php if($show_field): ?>
+                                        <input type="tel" name="phone" placeholder="<?= get_post_meta(get_the_ID(), 'petition_form_phone', true ) ?>">
+                                        <?php endif; ?>
                                     <fieldset>
                                         <!-- <label for="country">
                                             <?= get_post_meta(get_the_ID(), 'petition_form_country', true ) ?>

@@ -285,6 +285,13 @@ add_action('cmb2_admin_init', function () {
         'type' => 'text',
     ]);
 
+    $cmb_petition_form->add_field([
+        'name' => 'Display phone field',
+        'id' => 'petition_form_enable_phone_field',
+        'type' => 'checkbox',
+        'default' => cmb2_set_checkbox_default_for_new_post(true)
+    ]);
+
     $cmb_signature->add_field([
         'name' => 'Country',
         'id' => 'country',
