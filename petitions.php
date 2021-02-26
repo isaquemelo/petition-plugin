@@ -11,7 +11,7 @@ include __DIR__ . '/library/widgets.php';
 include __DIR__ . '/library/ctps.php';
 include __DIR__ . '/library/admin-columns.php';
 include __DIR__ . '/library/assets.php';
-//include __DIR__ . '/library/ajax.php';
+include __DIR__ . '/library/ajax.php';
 include __DIR__ . '/library/metaboxes.php';
 include __DIR__ . '/library/register-sidebars.php';
 include __DIR__ . '/library/export-signatures.php';
